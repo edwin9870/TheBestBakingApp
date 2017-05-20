@@ -1,6 +1,9 @@
 package com.edwin.android.thebestbakingapp.entity;
 
-public class IngredientDTO {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class IngredientDTO implements Parcelable {
 
     @com.google.gson.annotations.SerializedName("quantity")
     private double quantity;
@@ -40,5 +43,36 @@ public class IngredientDTO {
                 ", measure='" + measure + '\'' +
                 ", ingredient='" + ingredient + '\'' +
                 '}';
+    }
+
+
+    protected IngredientDTO(Parcel in) {
+        quantity = in.readDouble();
+        measure = in.readString();
+        ingredient = in.readString();
+    }
+
+    public static final Creator<IngredientDTO> CREATOR = new Creator<IngredientDTO>() {
+        @Override
+        public IngredientDTO createFromParcel(Parcel in) {
+            return new IngredientDTO(in);
+        }
+
+        @Override
+        public IngredientDTO[] newArray(int size) {
+            return new IngredientDTO[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeDouble(quantity);
+        dest.writeString(measure);
+        dest.writeString(ingredient);
     }
 }

@@ -1,6 +1,9 @@
 package com.edwin.android.thebestbakingapp.entity;
 
-public class StepsDTO {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class StepsDTO implements Parcelable {
     @com.google.gson.annotations.SerializedName("id")
     private int id;
     @com.google.gson.annotations.SerializedName("shortDescription")
@@ -77,5 +80,39 @@ public class StepsDTO {
                 ", videoUrl='" + videoUrl + '\'' +
                 ", thumbnailUrl='" + thumbnailUrl + '\'' +
                 '}';
+    }
+
+    protected StepsDTO(Parcel in) {
+        id = in.readInt();
+        shortDescription = in.readString();
+        description = in.readString();
+        videoUrl = in.readString();
+        thumbnailUrl = in.readString();
+    }
+
+    public static final Creator<StepsDTO> CREATOR = new Creator<StepsDTO>() {
+        @Override
+        public StepsDTO createFromParcel(Parcel in) {
+            return new StepsDTO(in);
+        }
+
+        @Override
+        public StepsDTO[] newArray(int size) {
+            return new StepsDTO[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(shortDescription);
+        dest.writeString(description);
+        dest.writeString(videoUrl);
+        dest.writeString(thumbnailUrl);
     }
 }

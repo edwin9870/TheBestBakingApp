@@ -1,12 +1,15 @@
 package com.edwin.android.thebestbakingapp.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
  * Created by Edwin Ramirez Ventur on 5/20/2017.
  */
 
-public class RecipeDTO {
+public class RecipeDTO implements Parcelable {
 
     @com.google.gson.annotations.SerializedName("id")
     private int id;
@@ -20,6 +23,7 @@ public class RecipeDTO {
     private int servings;
     @com.google.gson.annotations.SerializedName("image")
     private String image;
+
 
     public int getId() {
         return id;
@@ -95,5 +99,39 @@ public class RecipeDTO {
                 ", servings=" + servings +
                 ", image='" + image + '\'' +
                 '}';
+    }
+
+    protected RecipeDTO(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        steps = in.createTypedArrayList(StepsDTO.CREATOR);
+        servings = in.readInt();
+        image = in.readString();
+    }
+
+    public static final Creator<RecipeDTO> CREATOR = new Creator<RecipeDTO>() {
+        @Override
+        public RecipeDTO createFromParcel(Parcel in) {
+            return new RecipeDTO(in);
+        }
+
+        @Override
+        public RecipeDTO[] newArray(int size) {
+            return new RecipeDTO[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeTypedList(steps);
+        dest.writeInt(servings);
+        dest.writeString(image);
     }
 }
