@@ -17,9 +17,6 @@ import com.edwin.android.thebestbakingapp.entity.RecipeDTO;
 import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,10 +28,10 @@ import okhttp3.Response;
  * Created by Edwin Ramirez Ventur on 5/20/2017.
  */
 
-public class BakingRecipeFragment extends Fragment implements BackingPosterAdapter
+public class RecipeFragment extends Fragment implements BackingPosterAdapter
         .BackingPosterOnClickHandler {
 
-    public static final String TAG = BakingRecipeFragment.class.getSimpleName();
+    public static final String TAG = RecipeFragment.class.getSimpleName();
     @BindView(R.id.recycler_view_baking)
     RecyclerView mRecyclerView;
     private BackingPosterAdapter mBackingPosterAdapter;
