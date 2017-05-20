@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">The Best Baking App</string>
-    <string name="baking_data" translatable="false">http://go.udacity.com/android-baking-app-json</string>
+    <string name="baking_url_data" translatable="false">http://go.udacity.com/android-baking-app-json</string>
 </resources>

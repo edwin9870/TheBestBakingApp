@@ -3,17 +3,17 @@ package com.edwin.android.thebestbakingapp.entity;
 public class IngredientDTO {
 
     @com.google.gson.annotations.SerializedName("quantity")
-    private int quantity;
+    private double quantity;
     @com.google.gson.annotations.SerializedName("measure")
     private String measure;
     @com.google.gson.annotations.SerializedName("ingredient")
     private String ingredient;
 
-    public int getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
 

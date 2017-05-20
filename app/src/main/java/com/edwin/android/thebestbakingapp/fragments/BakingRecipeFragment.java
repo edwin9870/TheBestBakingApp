@@ -1,5 +1,6 @@
 package com.edwin.android.thebestbakingapp.fragments;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,12 +13,19 @@ import android.view.ViewGroup;
 
 import com.edwin.android.thebestbakingapp.R;
 import com.edwin.android.thebestbakingapp.adapters.BackingPosterAdapter;
+import com.edwin.android.thebestbakingapp.entity.RecipeDTO;
+import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by Edwin Ramirez Ventur on 5/20/2017.
@@ -47,27 +55,44 @@ public class BakingRecipeFragment extends Fragment implements BackingPosterAdapt
         Log.i(TAG, "Calling the adapter");
         mRecyclerView.setAdapter(mBackingPosterAdapter);
 
-        List<String> backingPoster = new ArrayList<>();
-        backingPoster.add("https://d17h27t6h515a5.cloudfront" +
-                ".net/topher/2017/April/58ffd974_-intro-creampie/-intro-creampie.mp4");
-        backingPoster.add("https://d17h27t6h515a5.cloudfront" +
-                ".net/topher/2017/April/58ffd974_-intro-creampie/-intro-creampie.mp4");
-        backingPoster.add("https://d17h27t6h515a5.cloudfront" +
-                ".net/topher/2017/April/58ffd974_-intro-creampie/-intro-creampie.mp4");
-        backingPoster.add("https://d17h27t6h515a5.cloudfront" +
-                ".net/topher/2017/April/58ffd974_-intro-creampie/-intro-creampie.mp4");
-        backingPoster.add("https://d17h27t6h515a5.cloudfront" +
-                ".net/topher/2017/April/58ffd974_-intro-creampie/-intro-creampie.mp4");
-        backingPoster.add("https://d17h27t6h515a5.cloudfront" +
-                ".net/topher/2017/April/58ffd974_-intro-creampie/-intro-creampie.mp4");
+        new AsyncTask<Void, Void, RecipeDTO[]>() {
 
-        mBackingPosterAdapter.setBackingPoster(backingPoster);
+            @Override
+            protected RecipeDTO[] doInBackground(Void... params) {
+                OkHttpClient client = new OkHttpClient();
+
+                String urlToGetData = getString(R.string.baking_url_data);
+                Request request = new Request.Builder()
+                        .url(urlToGetData)
+                        .build();
+
+                RecipeDTO[] recipeDTO = null;
+                try {
+                    Response response = client.newCall(request).execute();
+
+                    String responseJson = response.body().string();
+                    Gson gson = new Gson();
+                    recipeDTO = gson.fromJson(responseJson, RecipeDTO[].class);
+                } catch (IOException e) {
+                    Log.e(TAG, e.getMessage());
+                }
+
+                return recipeDTO;
+            }
+
+            @Override
+            protected void onPostExecute(RecipeDTO[] recipes) {
+                Log.d(TAG, "recipes size: " + recipes.length);
+                mBackingPosterAdapter.setBackingPoster(recipes);
+            }
+        }.execute();
+
 
         return view;
     }
 
     @Override
-    public void onClick(String movie) {
-        Log.d(TAG, "Baking poster clicked!");
+    public void onClick(RecipeDTO recipe) {
+        Log.d(TAG, "Recipe name clicked: "+ recipe.getName());
     }
 }

@@ -10,10 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.edwin.android.thebestbakingapp.R;
+import com.edwin.android.thebestbakingapp.entity.RecipeDTO;
 import com.edwin.android.thebestbakingapp.util.ImageUtil;
 import com.squareup.picasso.Picasso;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,12 +21,12 @@ import butterknife.ButterKnife;
  * Created by Edwin Ramirez Ventur on 5/19/2017.
  */
 
-public class BackingPosterAdapter extends RecyclerView.Adapter<BackingPosterAdapter.BackingPosterViewHolder>{
-
+public class BackingPosterAdapter extends RecyclerView.Adapter<BackingPosterAdapter
+        .BackingPosterViewHolder> {
 
 
     public static final String TAG = BackingPosterAdapter.class.getSimpleName();
-    private List<String> mBackingPoster;
+    private RecipeDTO[] mBackingPoster;
     private Context mContext;
     private BackingPosterOnClickHandler mClickHandler;
 
@@ -37,7 +36,7 @@ public class BackingPosterAdapter extends RecyclerView.Adapter<BackingPosterAdap
     }
 
     public interface BackingPosterOnClickHandler {
-        void onClick(String movie);
+        void onClick(RecipeDTO movie);
     }
 
     class BackingPosterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -56,11 +55,10 @@ public class BackingPosterAdapter extends RecyclerView.Adapter<BackingPosterAdap
         @Override
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
-            String movie = mBackingPoster.get(adapterPosition);
+            RecipeDTO movie = mBackingPoster[adapterPosition];
             mClickHandler.onClick(movie);
         }
     }
-
 
 
     @Override
@@ -75,23 +73,23 @@ public class BackingPosterAdapter extends RecyclerView.Adapter<BackingPosterAdap
 
     @Override
     public void onBindViewHolder(BackingPosterViewHolder holder, int position) {
-        String imageUrl = mBackingPoster.get(position);
-        Log.d(TAG, "imageUrl: "+ imageUrl);
+        RecipeDTO imageUrl = mBackingPoster[position];
+        Log.d(TAG, "imageUrl: " + imageUrl);
         Picasso picasso = Picasso.with(mContext);
         picasso.load(ImageUtil.getImagePosterResource()).fit().into(holder.mBakingPosterImageView);
-        holder.mRecipeNameTextView.setText("Holaaa, esta es una receta");
+        holder.mRecipeNameTextView.setText(imageUrl.getName());
     }
 
     @Override
     public int getItemCount() {
-        if(null == mBackingPoster) {
+        if (null == mBackingPoster) {
             return 0;
         }
 
-        return mBackingPoster.size();
+        return mBackingPoster.length;
     }
 
-    public void setBackingPoster(List<String> backingPoster) {
+    public void setBackingPoster(RecipeDTO[] backingPoster) {
         this.mBackingPoster = backingPoster;
         notifyDataSetChanged();
     }
