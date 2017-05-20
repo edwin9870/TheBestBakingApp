@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.edwin.android.thebestbakingapp.R;
 import com.edwin.android.thebestbakingapp.util.ImageUtil;
@@ -14,6 +15,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -40,13 +42,14 @@ public class BackingPosterAdapter extends RecyclerView.Adapter<BackingPosterAdap
 
     class BackingPosterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-//        @BindView(R.id.image_baking_poster)
+        @BindView(R.id.image_baking_poster)
         ImageView mBakingPosterImageView;
+        @BindView(R.id.recipe_name_text_view)
+        TextView mRecipeNameTextView;
 
         BackingPosterViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            mBakingPosterImageView = (ImageView) itemView.findViewById(R.id.image_baking_poster);
             itemView.setOnClickListener(this);
         }
 
@@ -76,6 +79,7 @@ public class BackingPosterAdapter extends RecyclerView.Adapter<BackingPosterAdap
         Log.d(TAG, "imageUrl: "+ imageUrl);
         Picasso picasso = Picasso.with(mContext);
         picasso.load(ImageUtil.getImagePosterResource()).fit().into(holder.mBakingPosterImageView);
+        holder.mRecipeNameTextView.setText("Holaaa, esta es una receta");
     }
 
     @Override
