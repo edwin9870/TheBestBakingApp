@@ -18,7 +18,7 @@ public class RecipeDTO implements Parcelable {
     @com.google.gson.annotations.SerializedName("ingredients")
     private List<IngredientDTO> ingredients;
     @com.google.gson.annotations.SerializedName("steps")
-    private List<StepsDTO> steps;
+    private List<StepDTO> steps;
     @com.google.gson.annotations.SerializedName("servings")
     private int servings;
     @com.google.gson.annotations.SerializedName("image")
@@ -49,11 +49,11 @@ public class RecipeDTO implements Parcelable {
         this.ingredients = ingredients;
     }
 
-    public List<StepsDTO> getSteps() {
+    public List<StepDTO> getSteps() {
         return steps;
     }
 
-    public void setSteps(List<StepsDTO> steps) {
+    public void setSteps(List<StepDTO> steps) {
         this.steps = steps;
     }
 
@@ -104,7 +104,7 @@ public class RecipeDTO implements Parcelable {
     protected RecipeDTO(Parcel in) {
         id = in.readInt();
         name = in.readString();
-        steps = in.createTypedArrayList(StepsDTO.CREATOR);
+        steps = in.createTypedArrayList(StepDTO.CREATOR);
         servings = in.readInt();
         image = in.readString();
     }

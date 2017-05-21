@@ -6,6 +6,9 @@ package com.edwin.android.thebestbakingapp.util;
 
 public final class Constants {
     public static class Intent {
-        public static final String RECIPE = "RECIPE";
+        public static final String RECIPE_TYPE = "RECIPE_TYPE";
+        public static final String STEP_TYPE = "STEP_TYPE";
+        public static final String RECIPE_NAME = "RECIPE_NAME";
+
     }
 }

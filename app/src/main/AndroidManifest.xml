@@ -23,11 +23,20 @@
         </activity>
         <activity
             android:name=".activities.RecipeDetailActivity"
+            android:launchMode="singleTop"
             android:parentActivityName=".activities.MainActivity"
             tools:targetApi="jelly_bean">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity"/>
+        </activity>
+        <activity
+            android:name=".activities.StepActivity"
+            android:parentActivityName=".activities.RecipeDetailActivity"
+            tools:targetApi="jelly_bean">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.RecipeDetailActivity"/>
         </activity>
     </application>
 

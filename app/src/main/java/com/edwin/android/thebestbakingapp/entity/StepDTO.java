@@ -3,7 +3,7 @@ package com.edwin.android.thebestbakingapp.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class StepsDTO implements Parcelable {
+public class StepDTO implements Parcelable {
     @com.google.gson.annotations.SerializedName("id")
     private int id;
     @com.google.gson.annotations.SerializedName("shortDescription")
@@ -60,7 +60,7 @@ public class StepsDTO implements Parcelable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        StepsDTO steps = (StepsDTO) o;
+        StepDTO steps = (StepDTO) o;
 
         return id == steps.id;
 
@@ -73,7 +73,7 @@ public class StepsDTO implements Parcelable {
 
     @Override
     public String toString() {
-        return "StepsDTO{" +
+        return "StepDTO{" +
                 "id=" + id +
                 ", shortDescription='" + shortDescription + '\'' +
                 ", description='" + description + '\'' +
@@ -82,7 +82,7 @@ public class StepsDTO implements Parcelable {
                 '}';
     }
 
-    protected StepsDTO(Parcel in) {
+    protected StepDTO(Parcel in) {
         id = in.readInt();
         shortDescription = in.readString();
         description = in.readString();
@@ -90,15 +90,15 @@ public class StepsDTO implements Parcelable {
         thumbnailUrl = in.readString();
     }
 
-    public static final Creator<StepsDTO> CREATOR = new Creator<StepsDTO>() {
+    public static final Creator<StepDTO> CREATOR = new Creator<StepDTO>() {
         @Override
-        public StepsDTO createFromParcel(Parcel in) {
-            return new StepsDTO(in);
+        public StepDTO createFromParcel(Parcel in) {
+            return new StepDTO(in);
         }
 
         @Override
-        public StepsDTO[] newArray(int size) {
-            return new StepsDTO[size];
+        public StepDTO[] newArray(int size) {
+            return new StepDTO[size];
         }
     };
 

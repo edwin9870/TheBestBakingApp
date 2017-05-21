@@ -96,7 +96,7 @@ public class RecipeFragment extends Fragment implements BackingPosterAdapter
         Class<RecipeDetailActivity> destinationActivity = RecipeDetailActivity.class;
         android.content.Intent intent = new android.content.Intent(RecipeFragment.this.getActivity(), destinationActivity);
 
-        intent.putExtra(Constants.Intent.RECIPE, recipe);
+        intent.putExtra(Constants.Intent.RECIPE_TYPE, recipe);
         startActivity(intent);
 
     }

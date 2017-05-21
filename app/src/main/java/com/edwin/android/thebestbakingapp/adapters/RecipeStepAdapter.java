@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.edwin.android.thebestbakingapp.R;
-import com.edwin.android.thebestbakingapp.entity.StepsDTO;
+import com.edwin.android.thebestbakingapp.entity.StepDTO;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,7 +23,7 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter
 
 
     public static final String TAG = RecipeStepAdapter.class.getSimpleName();
-    private StepsDTO[] mSteps;
+    private StepDTO[] mSteps;
     private Context mContext;
     private RecipeStepOnClickHandler mClickHandler;
 
@@ -33,7 +33,7 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter
     }
 
     public interface RecipeStepOnClickHandler {
-        void onClick(StepsDTO step);
+        void onClick(StepDTO step);
     }
 
     class RecipeStepViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -50,7 +50,7 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter
         @Override
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
-            StepsDTO step = mSteps[adapterPosition];
+            StepDTO step = mSteps[adapterPosition];
             mClickHandler.onClick(step);
         }
     }
@@ -68,7 +68,7 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter
 
     @Override
     public void onBindViewHolder(RecipeStepViewHolder holder, int position) {
-        StepsDTO recipe = mSteps[position];
+        StepDTO recipe = mSteps[position];
         Log.d(TAG, "Recipe short description: " + recipe.getShortDescription());
         holder.mRecipeStepDescriptionTextView.setText(recipe.getShortDescription());
     }
@@ -82,7 +82,7 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter
         return mSteps.length;
     }
 
-    public void setBackingPoster(StepsDTO[] steps) {
+    public void setBackingPoster(StepDTO[] steps) {
         this.mSteps = steps;
         notifyDataSetChanged();
     }
