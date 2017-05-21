@@ -5,7 +5,7 @@
                                                  android:layout_width="match_parent"
                                                  android:layout_height="match_parent"
                                                  android:fitsSystemWindows="true"
-                                                 tools:context="com.edwin.android.thebestbakingapp.activities.RecipeDetail">
+                                                 tools:context="com.edwin.android.thebestbakingapp.activities.RecipeDetailActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -17,15 +17,16 @@
             android:layout_height="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways"/>
 
-
     </android.support.design.widget.AppBarLayout>
+
 
     <fragment
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/recipe_detail_fragment"
         android:name="com.edwin.android.thebestbakingapp.fragments.RecipeDetailFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
 
 </android.support.design.widget.CoordinatorLayout>

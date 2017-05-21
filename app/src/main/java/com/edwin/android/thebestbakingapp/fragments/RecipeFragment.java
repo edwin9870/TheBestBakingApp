@@ -12,8 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.edwin.android.thebestbakingapp.R;
+import com.edwin.android.thebestbakingapp.activities.RecipeDetailActivity;
 import com.edwin.android.thebestbakingapp.adapters.BackingPosterAdapter;
 import com.edwin.android.thebestbakingapp.entity.RecipeDTO;
+import com.edwin.android.thebestbakingapp.util.Constants;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -91,5 +93,11 @@ public class RecipeFragment extends Fragment implements BackingPosterAdapter
     @Override
     public void onClick(RecipeDTO recipe) {
         Log.d(TAG, "Recipe name clicked: "+ recipe.getName());
+        Class<RecipeDetailActivity> destinationActivity = RecipeDetailActivity.class;
+        android.content.Intent intent = new android.content.Intent(RecipeFragment.this.getActivity(), destinationActivity);
+
+        intent.putExtra(Constants.Intent.RECIPE, recipe);
+        startActivity(intent);
+
     }
 }
