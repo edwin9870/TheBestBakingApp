@@ -1,4 +1,4 @@
-package com.edwin.android.thebestbakingapp.adapters;
+package com.edwin.android.thebestbakingapp.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

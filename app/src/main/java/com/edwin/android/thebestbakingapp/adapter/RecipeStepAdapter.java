@@ -1,4 +1,4 @@
-package com.edwin.android.thebestbakingapp.adapters;
+package com.edwin.android.thebestbakingapp.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -33,7 +33,7 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter
     }
 
     public interface RecipeStepOnClickHandler {
-        void onClick(StepDTO step);
+        void onClick(int position);
     }
 
     class RecipeStepViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -49,9 +49,7 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter
 
         @Override
         public void onClick(View v) {
-            int adapterPosition = getAdapterPosition();
-            StepDTO step = mSteps[adapterPosition];
-            mClickHandler.onClick(step);
+            mClickHandler.onClick(getAdapterPosition());
         }
     }
 

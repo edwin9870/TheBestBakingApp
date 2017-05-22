@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.edwin.android.thebestbakingapp.R;
 import com.edwin.android.thebestbakingapp.activities.RecipeDetailActivity;
-import com.edwin.android.thebestbakingapp.adapters.BackingPosterAdapter;
+import com.edwin.android.thebestbakingapp.adapter.BackingPosterAdapter;
 import com.edwin.android.thebestbakingapp.entity.RecipeDTO;
 import com.edwin.android.thebestbakingapp.util.Constants;
 import com.google.gson.Gson;

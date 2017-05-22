@@ -2,6 +2,7 @@ package com.edwin.android.thebestbakingapp.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,15 +13,21 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.edwin.android.thebestbakingapp.R;
-import com.edwin.android.thebestbakingapp.activities.RecipeDetailActivity;
 import com.edwin.android.thebestbakingapp.activities.StepActivity;
-import com.edwin.android.thebestbakingapp.adapters.RecipeStepAdapter;
+import com.edwin.android.thebestbakingapp.adapter.RecipeStepAdapter;
 import com.edwin.android.thebestbakingapp.entity.RecipeDTO;
 import com.edwin.android.thebestbakingapp.entity.StepDTO;
 import com.edwin.android.thebestbakingapp.util.Constants;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.edwin.android.thebestbakingapp.fragments.RecipeDetailFragment.IntentKey
+        .RECIPE_NAME;
+import static com.edwin.android.thebestbakingapp.fragments.RecipeDetailFragment.IntentKey
+        .STEP_SELECTED;
 
 /**
  * Created by Edwin Ramirez Ventur on 5/20/2017.
@@ -31,6 +38,11 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepAdapter
 
 
     public static final String TAG = RecipeDetailFragment.class.getSimpleName();
+
+    public enum IntentKey {
+        STEP_LIST, RECIPE_NAME, STEP_SELECTED;
+    }
+
     @BindView(R.id.recycler_view_recipe_step)
     RecyclerView mRecyclerView;
     private RecipeStepAdapter mRecipeStepAdapter;
@@ -63,14 +75,14 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepAdapter
     }
 
     @Override
-    public void onClick(StepDTO step) {
-        Log.d(TAG, "step clicked: " + step);
+    public void onClick(int position) {
+        Log.d(TAG, "step position clicked: " + position);
         Class<StepActivity> destinationActivity = StepActivity.class;
-        android.content.Intent intent = new android.content.Intent(RecipeDetailFragment.this
-                .getActivity(), destinationActivity);
+        Intent intent = new Intent(RecipeDetailFragment.this.getActivity(), destinationActivity);
 
-        intent.putExtra(Constants.Intent.STEP_TYPE, step);
-        intent.putExtra(Constants.Intent.RECIPE_NAME, mRecipe.getName());
+        intent.putParcelableArrayListExtra(IntentKey.STEP_LIST.name(), new ArrayList<Parcelable>(mRecipe.getSteps()));
+        intent.putExtra(RECIPE_NAME.name(), mRecipe.getName());
+        intent.putExtra(STEP_SELECTED.name(), position);
         startActivity(intent);
     }
 }
