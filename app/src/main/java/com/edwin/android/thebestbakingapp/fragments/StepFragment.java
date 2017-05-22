@@ -3,13 +3,13 @@ package com.edwin.android.thebestbakingapp.fragments;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.edwin.android.thebestbakingapp.R;
 import com.edwin.android.thebestbakingapp.entity.StepDTO;
@@ -39,6 +39,8 @@ public class StepFragment extends Fragment {
     public static final String TAG = StepFragment.class.getSimpleName();
     @BindView(R.id.playerView)
     SimpleExoPlayerView simpleExoPlayerView;
+    @BindView(R.id.recipe_step_description_text_view)
+    TextView mRecipeStepDescriptionTextView;
     private StepDTO mStep;
     private String mUserAgent;
     private SimpleExoPlayer mExoPlayer;
@@ -55,6 +57,7 @@ public class StepFragment extends Fragment {
 
         Log.d(TAG, "Step received: " + mStep);
 
+        mRecipeStepDescriptionTextView.setText(mStep.getDescription());
         simpleExoPlayerView.requestFocus();
 
         DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
@@ -62,7 +65,8 @@ public class StepFragment extends Fragment {
         TrackSelection.Factory videoTrackSelectionFactory =
                 new AdaptiveVideoTrackSelection.Factory(bandwidthMeter);
         DefaultTrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
-        mExoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, new DefaultLoadControl());
+        mExoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, new
+                DefaultLoadControl());
         simpleExoPlayerView.setPlayer(mExoPlayer);
         mExoPlayer.setPlayWhenReady(true);
         DefaultExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
@@ -75,5 +79,4 @@ public class StepFragment extends Fragment {
 
         return view;
     }
-
 }
