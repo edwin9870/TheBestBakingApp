@@ -41,6 +41,7 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
     private StepOnClickHandler mClickHandler;
     private int mStepSelected;
+    private SimpleExoPlayer mExoPlayer;
 
 
     public StepAdapter(Context context, StepOnClickHandler clickHandler) {
@@ -116,7 +117,7 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TrackSelection.Factory videoTrackSelectionFactory =
                 new AdaptiveVideoTrackSelection.Factory(bandwidthMeter);
         DefaultTrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
-        SimpleExoPlayer mExoPlayer = ExoPlayerFactory.newSimpleInstance(mContext, trackSelector, new
+        mExoPlayer = ExoPlayerFactory.newSimpleInstance(mContext, trackSelector, new
                 DefaultLoadControl());
         holder.mPlayerView.setPlayer(mExoPlayer);
         mExoPlayer.setPlayWhenReady(true);
@@ -139,7 +140,21 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private void configureViewHolder(StepNextPreviousViewHolder holder, int position) {
-        //TODO: Pending to implement
+        holder.mNextStepButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "Next button clicked");
+                mClickHandler.onClick(true);
+            }
+        });
+
+        holder.mPreviousStepButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "Previous button clicked");
+                mClickHandler.onClick(false);
+            }
+        });
     }
 
     @Override
@@ -156,4 +171,15 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.mStepSelected = stepSelected;
         notifyDataSetChanged();
     }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        Log.d(TAG, "onDetachedFromRecyclerView called");
+        mExoPlayer.stop();
+        mExoPlayer.release();
+        mExoPlayer = null;
+    }
+
+
 }
