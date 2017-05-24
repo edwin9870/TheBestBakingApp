@@ -1,6 +1,7 @@
 package com.edwin.android.thebestbakingapp.fragments;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.edwin.android.thebestbakingapp.R;
 import com.edwin.android.thebestbakingapp.activities.StepActivity;
@@ -35,6 +37,7 @@ import static com.edwin.android.thebestbakingapp.fragments.RecipeDetailFragment.
 public class StepFragment extends Fragment implements StepAdapter.StepOnClickHandler {
 
     public static final String TAG = StepFragment.class.getSimpleName();
+    public static final String NAVIGATION_ITEM = "navigation";
     @BindView(R.id.recycler_view_step)
     RecyclerView mRecyclerView;
     private StepAdapter mStepAdapter;
@@ -68,9 +71,13 @@ public class StepFragment extends Fragment implements StepAdapter.StepOnClickHan
 
         List<Object> items = new ArrayList<>();
 
-        items.add(mSteps.get(mStepSelected).getVideoUrl());
+        Uri videoUri = Uri.parse(mSteps.get(mStepSelected).getVideoUrl());
+
+        if(videoUri != null && !videoUri.toString().isEmpty()) {
+            items.add(videoUri);
+        }
         items.add(mSteps.get(mStepSelected).getDescription());
-        items.add("navigation");
+        items.add(NAVIGATION_ITEM);
         mStepAdapter.setBackingPoster(items, mStepSelected);
 
 
@@ -80,10 +87,15 @@ public class StepFragment extends Fragment implements StepAdapter.StepOnClickHan
     @Override
     public void onClick(boolean nextStep) {
         Log.d(TAG, "nextStep: " + nextStep);
-        if(nextStep) {
-            mStepSelected++;
-        }else{
+        if(nextStep && mStepSelected < mSteps.size()) {
+                mStepSelected++;
+        }else if(mStepSelected > 1){
             mStepSelected--;
+        } else {
+            Log.d(TAG, "There is not more page to go");
+            Toast.makeText(getActivity(), getActivity().getString(R.string.no_more_page_to_go),
+                    Toast.LENGTH_SHORT).show();
+            return;
         }
         Class<StepActivity> destinationActivity = StepActivity.class;
         Intent intent = new Intent(getActivity(), destinationActivity);

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.edwin.android.thebestbakingapp.R;
+import com.edwin.android.thebestbakingapp.fragments.StepFragment;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -82,15 +83,15 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        switch (position) {
-            case 0:
-                return VIDEO_PLAYER_VIEW_TYPE;
-            case 1:
-                return STEP_DESCRIPTION_VIEW_TYPE;
-            case 2:
-                return NEXT_PREVIOUS_VIEW_TYPE;
-            default:
-                throw new IllegalArgumentException("Invalid position: " + position);
+        if (mItems.get(position) instanceof Uri) {
+            return VIDEO_PLAYER_VIEW_TYPE;
+        } else if (mItems.get(position) instanceof String && mItems.get(position)
+                .equals(StepFragment.NAVIGATION_ITEM)) {
+            return NEXT_PREVIOUS_VIEW_TYPE;
+        } else if (mItems.get(position) instanceof String) {
+            return STEP_DESCRIPTION_VIEW_TYPE;
+        } else {
+            throw new IllegalArgumentException("Invalid position: " + position);
         }
     }
 
@@ -122,11 +123,11 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         holder.mPlayerView.setPlayer(mExoPlayer);
         mExoPlayer.setPlayWhenReady(true);
         DefaultExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
-        String videoUrl = (String) mItems.get(position);
+        Uri videoUrl = (Uri) mItems.get(position);
 
         Log.d(TAG, "Video url to play: "+ videoUrl);
         Log.d(TAG, "Position: "+ position);
-        MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(videoUrl),
+        MediaSource mediaSource = new ExtractorMediaSource(videoUrl,
                 new DefaultDataSourceFactory(mContext, USER_AGENT), extractorsFactory, null, null);
         mExoPlayer.prepare(mediaSource);
         mExoPlayer.setPlayWhenReady(true);
@@ -176,9 +177,11 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
         Log.d(TAG, "onDetachedFromRecyclerView called");
-        mExoPlayer.stop();
-        mExoPlayer.release();
-        mExoPlayer = null;
+        if(mExoPlayer != null) {
+            mExoPlayer.stop();
+            mExoPlayer.release();
+            mExoPlayer = null;
+        }
     }
 
 
