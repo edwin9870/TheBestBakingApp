@@ -11,18 +11,20 @@ import com.edwin.android.thebestbakingapp.util.Constants;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class RecipeDetailActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar_main)
     Toolbar mToolbar;
     private RecipeDTO mRecipe;
+    private Unbinder mUnbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_detail);
-        ButterKnife.bind(this);
+        mUnbinder = ButterKnife.bind(this);
 
         setupBar();
     }
@@ -34,5 +36,11 @@ public class RecipeDetailActivity extends AppCompatActivity {
         mToolbar.setTitle(mRecipe.getName());
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mUnbinder.unbind();
     }
 }

@@ -24,6 +24,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 import static com.edwin.android.thebestbakingapp.fragments.RecipeDetailFragment.IntentKey.RECIPE_NAME;
 import static com.edwin.android.thebestbakingapp.fragments.RecipeDetailFragment.IntentKey.STEP_LIST;
@@ -44,13 +45,14 @@ public class StepFragment extends Fragment implements StepAdapter.StepOnClickHan
     private List<StepDTO> mSteps;
     private int mStepSelected;
     private String mRecipeName;
+    private Unbinder mUnbinder;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
             Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_step, container, false);
-        ButterKnife.bind(this, view);
+        mUnbinder = ButterKnife.bind(this, view);
 
         Intent intentThatStartedThisActivity = getActivity().getIntent();
         mSteps = intentThatStartedThisActivity.getParcelableArrayListExtra(STEP_LIST
@@ -78,7 +80,7 @@ public class StepFragment extends Fragment implements StepAdapter.StepOnClickHan
         }
         items.add(mSteps.get(mStepSelected).getDescription());
         items.add(NAVIGATION_ITEM);
-        mStepAdapter.setBackingPoster(items, mStepSelected);
+        mStepAdapter.setBackingPoster(items);
 
 
         return view;
@@ -87,9 +89,9 @@ public class StepFragment extends Fragment implements StepAdapter.StepOnClickHan
     @Override
     public void onClick(boolean nextStep) {
         Log.d(TAG, "nextStep: " + nextStep);
-        if(nextStep && mStepSelected < mSteps.size()) {
+        if(nextStep && mStepSelected < (mSteps.size()-1)) {
                 mStepSelected++;
-        }else if(mStepSelected > 1){
+        }else if(!nextStep && mStepSelected > 0){
             mStepSelected--;
         } else {
             Log.d(TAG, "There is not more page to go");
@@ -108,9 +110,31 @@ public class StepFragment extends Fragment implements StepAdapter.StepOnClickHan
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume called");
+
+        if(mStepAdapter != null) {
+            mStepAdapter.playVideo();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause called");
+
+        if(mStepAdapter != null) {
+            mStepAdapter.pauseVideo();
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d(TAG, "onDestroyView called");
         mRecyclerView.setAdapter(null);
-        Log.d(TAG, "onDetach called");
+        mUnbinder.unbind();
+
     }
 }

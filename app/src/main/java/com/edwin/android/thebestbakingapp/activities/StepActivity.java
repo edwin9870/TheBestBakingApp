@@ -6,11 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.edwin.android.thebestbakingapp.R;
-import com.edwin.android.thebestbakingapp.fragments.RecipeDetailFragment;
-import com.edwin.android.thebestbakingapp.util.Constants;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 import static com.edwin.android.thebestbakingapp.fragments.RecipeDetailFragment.IntentKey
         .RECIPE_NAME;
@@ -19,12 +18,13 @@ public class StepActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar_recipe_step)
     Toolbar mToolbarRecipeStep;
+    private Unbinder mUnbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step);
-        ButterKnife.bind(this);
+        mUnbinder = ButterKnife.bind(this);
 
         setupBar();
     }
@@ -35,5 +35,11 @@ public class StepActivity extends AppCompatActivity {
         mToolbarRecipeStep.setTitle(recipeName);
         setSupportActionBar(mToolbarRecipeStep);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mUnbinder.unbind();
     }
 }

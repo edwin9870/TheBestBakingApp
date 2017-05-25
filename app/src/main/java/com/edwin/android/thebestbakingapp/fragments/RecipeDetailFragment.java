@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 import static com.edwin.android.thebestbakingapp.fragments.RecipeDetailFragment.IntentKey
         .RECIPE_NAME;
@@ -38,6 +39,7 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepAdapter
 
 
     public static final String TAG = RecipeDetailFragment.class.getSimpleName();
+    private Unbinder mUnbinder;
 
     public enum IntentKey {
         STEP_LIST, RECIPE_NAME, STEP_SELECTED;
@@ -53,7 +55,7 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepAdapter
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
             Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_recipe_detail, container, false);
-        ButterKnife.bind(this, view);
+        mUnbinder = ButterKnife.bind(this, view);
 
         Intent intentThatStartedThisActivity = getActivity().getIntent();
         mRecipe = intentThatStartedThisActivity.getParcelableExtra(Constants.Intent.RECIPE_TYPE);
@@ -84,5 +86,11 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepAdapter
         intent.putExtra(RECIPE_NAME.name(), mRecipe.getName());
         intent.putExtra(STEP_SELECTED.name(), position);
         startActivity(intent);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mUnbinder.unbind();
     }
 }

@@ -22,6 +22,7 @@ import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -34,16 +35,18 @@ public class RecipeFragment extends Fragment implements BackingPosterAdapter
         .BackingPosterOnClickHandler {
 
     public static final String TAG = RecipeFragment.class.getSimpleName();
+    public static final String RECIPE_NAME = "RECIPE_NAME";
     @BindView(R.id.recycler_view_baking)
     RecyclerView mRecyclerView;
     private BackingPosterAdapter mBackingPosterAdapter;
+    private Unbinder mUnbinder;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
             Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_baking_recipe, container, false);
-        ButterKnife.bind(this, view);
+        mUnbinder = ButterKnife.bind(this, view);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1);
         Log.d(TAG, "$gridLayoutManager: " + gridLayoutManager);
         mRecyclerView.setLayoutManager(gridLayoutManager);
@@ -99,5 +102,11 @@ public class RecipeFragment extends Fragment implements BackingPosterAdapter
         intent.putExtra(Constants.Intent.RECIPE_TYPE, recipe);
         startActivity(intent);
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mUnbinder.unbind();
     }
 }
