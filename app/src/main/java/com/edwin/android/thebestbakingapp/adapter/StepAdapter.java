@@ -1,5 +1,6 @@
 package com.edwin.android.thebestbakingapp.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
@@ -39,13 +40,13 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final String TAG = StepAdapter.class.getSimpleName();
 
     private List<Object> mItems;
-    private Context mContext;
+    private Activity mActivity;
     private StepOnClickHandler mClickHandler;
     private SimpleExoPlayer mExoPlayer;
 
 
-    public StepAdapter(Context context, StepOnClickHandler clickHandler) {
-        this.mContext = context;
+    public StepAdapter(Activity activity, StepOnClickHandler clickHandler) {
+        this.mActivity = activity;
         this.mClickHandler = clickHandler;
     }
 
@@ -60,7 +61,7 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         switch (viewType) {
             case VIDEO_PLAYER_VIEW_TYPE:
                 view = inflater.inflate(R.layout.item_video_player, viewGroup, false);
-                viewHolder = new StepVideoPlayerViewHolder(view);
+                viewHolder = new StepVideoPlayerViewHolder(view, mActivity);
                 break;
             case STEP_DESCRIPTION_VIEW_TYPE:
                 view = inflater.inflate(R.layout.item_step_description, viewGroup, false);
@@ -158,7 +159,7 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TrackSelection.Factory videoTrackSelectionFactory =
                 new AdaptiveVideoTrackSelection.Factory(bandwidthMeter);
         DefaultTrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
-        mExoPlayer = ExoPlayerFactory.newSimpleInstance(mContext, trackSelector, new
+        mExoPlayer = ExoPlayerFactory.newSimpleInstance(mActivity, trackSelector, new
                 DefaultLoadControl());
         holder.mPlayerView.setPlayer(mExoPlayer);
         mExoPlayer.setPlayWhenReady(true);
@@ -168,7 +169,7 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         Log.d(TAG, "Video url to play: " + videoUrl);
         Log.d(TAG, "Position: " + position);
         MediaSource mediaSource = new ExtractorMediaSource(videoUrl,
-                new DefaultDataSourceFactory(mContext, USER_AGENT), extractorsFactory, null, null);
+                new DefaultDataSourceFactory(mActivity, USER_AGENT), extractorsFactory, null, null);
         mExoPlayer.prepare(mediaSource);
         mExoPlayer.setPlayWhenReady(true);
     }
