@@ -45,6 +45,10 @@ public class StepActivity extends AppCompatActivity {
                     .name());
             String mRecipeName = getIntent().getStringExtra(RECIPE_NAME.name());
 
+            if(getIntent().hasExtra(STEP_SELECTED.name())) {
+                stepFragment.setStepSelected(getIntent().getIntExtra(STEP_SELECTED.name(), 0));
+            }
+
             stepFragment.setRecipeName(mRecipeName);
             stepFragment.setSteps(mSteps);
             fragmentManager.beginTransaction()
