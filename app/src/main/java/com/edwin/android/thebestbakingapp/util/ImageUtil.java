@@ -1,7 +1,5 @@
 package com.edwin.android.thebestbakingapp.util;
 
-import android.content.ClipData;
-
 import com.edwin.android.thebestbakingapp.R;
 
 import java.util.ArrayList;
@@ -17,9 +15,9 @@ public final class ImageUtil {
 
     public static int getImagePosterResource() {
         List<Integer> bakerPoster = new ArrayList<>();
-        bakerPoster.add(R.drawable.cake);
-        bakerPoster.add(R.drawable.appetizing);
-        bakerPoster.add(R.drawable.food_with_apples);
+        bakerPoster.add(R.drawable.ic_cake);
+        bakerPoster.add(R.drawable.ic_appetizing);
+        bakerPoster.add(R.drawable.ic_food_with_apples);
 
         int index = randomGenerator.nextInt(bakerPoster.size());
         return bakerPoster.get(index);
