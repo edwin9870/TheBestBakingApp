@@ -31,7 +31,8 @@ public class StepVideoPlayerViewHolder extends RecyclerView.ViewHolder {
     StepVideoPlayerViewHolder(View itemView, Activity activity) {
         super(itemView);
         ButterKnife.bind(this, itemView);
-        if (activity.getResources().getConfiguration().orientation == Configuration
+        boolean isTablet = activity.getResources().getBoolean(R.bool.is_tablet);
+        if (!isTablet && activity.getResources().getConfiguration().orientation == Configuration
                 .ORIENTATION_LANDSCAPE) {
             Log.d(TAG, "Device is in landscape");
 

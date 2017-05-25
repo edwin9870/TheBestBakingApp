@@ -43,7 +43,7 @@ public class StepFragment extends Fragment implements StepAdapter.StepOnClickHan
     RecyclerView mRecyclerView;
     private StepAdapter mStepAdapter;
     private List<StepDTO> mSteps;
-    private int mStepSelected;
+    private Integer mStepSelected;
     private String mRecipeName;
     private Unbinder mUnbinder;
 
@@ -52,13 +52,23 @@ public class StepFragment extends Fragment implements StepAdapter.StepOnClickHan
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
             Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_step, container, false);
+
+        if(mSteps == null || mRecipeName == null) {
+            Log.i(TAG, "This fragments has a null list of steps or a null recipe name");
+            return view;
+        }
+
+        if(mStepSelected == null) {
+            mStepSelected = 0;
+        }
+
         mUnbinder = ButterKnife.bind(this, view);
 
-        Intent intentThatStartedThisActivity = getActivity().getIntent();
-        mSteps = intentThatStartedThisActivity.getParcelableArrayListExtra(STEP_LIST
-                .name());
-        mStepSelected = intentThatStartedThisActivity.getIntExtra(STEP_SELECTED.name(), -1);
-        mRecipeName = intentThatStartedThisActivity.getStringExtra(RECIPE_NAME.name());
+//        Intent intentThatStartedThisActivity = getActivity().getIntent();
+//        mSteps = intentThatStartedThisActivity.getParcelableArrayListExtra(STEP_LIST
+//                .name());
+//        mStepSelected = intentThatStartedThisActivity.getIntExtra(STEP_SELECTED.name(), -1);
+//        mRecipeName = intentThatStartedThisActivity.getStringExtra(RECIPE_NAME.name());
 
 
         Log.d(TAG, "Steps received: " + mSteps);
@@ -135,6 +145,17 @@ public class StepFragment extends Fragment implements StepAdapter.StepOnClickHan
         Log.d(TAG, "onDestroyView called");
         mRecyclerView.setAdapter(null);
         mUnbinder.unbind();
+    }
 
+    public void setRecipeName(String recipeName) {
+        this.mRecipeName = recipeName;
+    }
+
+    public void setSteps(List<StepDTO> steps) {
+        this.mSteps = steps;
+    }
+
+    public void setStepSelected(int stepSelected) {
+        this.mStepSelected = stepSelected;
     }
 }
