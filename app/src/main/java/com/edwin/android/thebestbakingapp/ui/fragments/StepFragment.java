@@ -64,13 +64,6 @@ public class StepFragment extends Fragment implements StepAdapter.StepOnClickHan
 
         mUnbinder = ButterKnife.bind(this, view);
 
-//        Intent intentThatStartedThisActivity = getActivity().getIntent();
-//        mSteps = intentThatStartedThisActivity.getParcelableArrayListExtra(STEP_LIST
-//                .name());
-//        mStepSelected = intentThatStartedThisActivity.getIntExtra(STEP_SELECTED.name(), -1);
-//        mRecipeName = intentThatStartedThisActivity.getStringExtra(RECIPE_NAME.name());
-
-
         Log.d(TAG, "Steps received: " + mSteps);
         Log.d(TAG, "selected step: " + mStepSelected);
 
@@ -89,7 +82,11 @@ public class StepFragment extends Fragment implements StepAdapter.StepOnClickHan
             items.add(videoUri);
         }
         items.add(mSteps.get(mStepSelected).getDescription());
-        items.add(NAVIGATION_ITEM);
+
+        boolean isTablet = getActivity().getResources().getBoolean(R.bool.is_tablet);
+        if(!isTablet) {
+            items.add(NAVIGATION_ITEM);
+        }
         mStepAdapter.setBackingPoster(items);
 
 
