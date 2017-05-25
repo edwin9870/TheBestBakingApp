@@ -7,11 +7,11 @@
 
 
     <TextView
-        android:id="@+id/recipe_step_description_text_view"
+        android:id="@+id/text_recipe_step_description"
         style="@style/Base.TextAppearance.AppCompat.Body1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Sample description of a recipe.... :PPPPPPP"/>
+        tools:text="Sample description of a recipe.... :PPPPPPP"/>
 
 </FrameLayout>

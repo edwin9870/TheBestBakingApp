@@ -16,9 +16,9 @@ import butterknife.ButterKnife;
 public class StepNextPreviousViewHolder extends RecyclerView.ViewHolder {
 
 
-    @BindView(R.id.previous_step_button)
+    @BindView(R.id.button_previous_step)
     Button mPreviousStepButton;
-    @BindView(R.id.next_step_button)
+    @BindView(R.id.button_next_step)
     Button mNextStepButton;
 
     StepNextPreviousViewHolder(View itemView) {

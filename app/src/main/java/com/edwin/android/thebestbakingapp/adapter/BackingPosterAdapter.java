@@ -70,7 +70,7 @@ public class BackingPosterAdapter extends RecyclerView.Adapter<BackingPosterAdap
 
         @BindView(R.id.image_baking_poster)
         ImageView mBakingPosterImageView;
-        @BindView(R.id.recipe_name_text_view)
+        @BindView(R.id.text_recipe_name)
         TextView mRecipeNameTextView;
 
         BackingPosterViewHolder(View itemView) {

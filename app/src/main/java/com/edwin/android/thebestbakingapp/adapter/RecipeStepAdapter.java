@@ -70,7 +70,7 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter
 
     class RecipeStepViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @BindView(R.id.recipe_step_description)
+        @BindView(R.id.text_recipe_step_short_description)
         TextView mRecipeStepDescriptionTextView;
 
         RecipeStepViewHolder(View itemView) {

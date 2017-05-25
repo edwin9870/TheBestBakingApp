@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
 public class StepDescriptionViewHolder extends RecyclerView.ViewHolder {
 
 
-    @BindView(R.id.recipe_step_description_text_view)
+    @BindView(R.id.text_recipe_step_description)
     TextView mRecipeStepDescriptionTextView;
 
     StepDescriptionViewHolder(View itemView) {
