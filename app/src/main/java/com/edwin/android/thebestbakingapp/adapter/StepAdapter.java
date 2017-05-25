@@ -41,7 +41,6 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Object> mItems;
     private Context mContext;
     private StepOnClickHandler mClickHandler;
-    private int mStepSelected;
     private SimpleExoPlayer mExoPlayer;
 
 
@@ -108,7 +107,8 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 configureViewHolder((StepNextPreviousViewHolder) holder, position);
                 break;
             default:
-                throw new IllegalArgumentException("Invalid item view type: " + holder.getItemViewType());
+                throw new IllegalArgumentException("Invalid item view type: " + holder
+                        .getItemViewType());
         }
     }
 
@@ -125,8 +125,8 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         DefaultExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
         Uri videoUrl = (Uri) mItems.get(position);
 
-        Log.d(TAG, "Video url to play: "+ videoUrl);
-        Log.d(TAG, "Position: "+ position);
+        Log.d(TAG, "Video url to play: " + videoUrl);
+        Log.d(TAG, "Position: " + position);
         MediaSource mediaSource = new ExtractorMediaSource(videoUrl,
                 new DefaultDataSourceFactory(mContext, USER_AGENT), extractorsFactory, null, null);
         mExoPlayer.prepare(mediaSource);
@@ -135,8 +135,8 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private void configureViewHolder(StepDescriptionViewHolder holder, int position) {
         String stepDescription = (String) mItems.get(position);
-        Log.d(TAG, "stepDescription: "+ stepDescription);
-        Log.d(TAG, "position: "+ position);
+        Log.d(TAG, "stepDescription: " + stepDescription);
+        Log.d(TAG, "position: " + position);
         holder.mRecipeStepDescriptionTextView.setText(stepDescription);
     }
 
@@ -167,9 +167,8 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return mItems.size();
     }
 
-    public void setBackingPoster(List<Object> items, int stepSelected) {
+    public void setBackingPoster(List<Object> items) {
         this.mItems = items;
-        this.mStepSelected = stepSelected;
         notifyDataSetChanged();
     }
 
@@ -177,11 +176,25 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
         Log.d(TAG, "onDetachedFromRecyclerView called");
-        if(mExoPlayer != null) {
+        if (mExoPlayer != null) {
             mExoPlayer.stop();
             mExoPlayer.release();
             mExoPlayer = null;
         }
+    }
+
+    public void pauseVideo() {
+        if(mExoPlayer == null) {
+            return;
+        }
+        mExoPlayer.setPlayWhenReady(false);
+    }
+
+    public void playVideo() {
+        if(mExoPlayer == null) {
+            return;
+        }
+        mExoPlayer.setPlayWhenReady(true);
     }
 
 
