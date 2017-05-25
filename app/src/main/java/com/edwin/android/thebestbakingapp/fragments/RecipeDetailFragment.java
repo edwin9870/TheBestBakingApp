@@ -17,7 +17,6 @@ import com.edwin.android.thebestbakingapp.activities.StepActivity;
 import com.edwin.android.thebestbakingapp.adapter.RecipeStepAdapter;
 import com.edwin.android.thebestbakingapp.entity.RecipeDTO;
 import com.edwin.android.thebestbakingapp.entity.StepDTO;
-import com.edwin.android.thebestbakingapp.util.Constants;
 
 import java.util.ArrayList;
 
@@ -58,7 +57,7 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepAdapter
         mUnbinder = ButterKnife.bind(this, view);
 
         Intent intentThatStartedThisActivity = getActivity().getIntent();
-        mRecipe = intentThatStartedThisActivity.getParcelableExtra(Constants.Intent.RECIPE_TYPE);
+        mRecipe = intentThatStartedThisActivity.getParcelableExtra(RecipeFragment.IntentKey.RECIPE_TYPE.name());
 
         Log.d(RecipeDetailFragment.class.getSimpleName(), "Recipe received: " + mRecipe);
 

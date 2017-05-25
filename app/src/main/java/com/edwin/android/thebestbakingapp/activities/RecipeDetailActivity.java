@@ -7,7 +7,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.edwin.android.thebestbakingapp.R;
 import com.edwin.android.thebestbakingapp.entity.RecipeDTO;
-import com.edwin.android.thebestbakingapp.util.Constants;
+import com.edwin.android.thebestbakingapp.fragments.RecipeFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,7 +32,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
     private void setupBar() {
         Intent intentThatStartedThisActivity = getIntent();
-        mRecipe = intentThatStartedThisActivity.getParcelableExtra(Constants.Intent.RECIPE_TYPE);
+        mRecipe = intentThatStartedThisActivity.getParcelableExtra(RecipeFragment.RECIPE_TYPE);
         mToolbar.setTitle(mRecipe.getName());
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

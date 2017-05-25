@@ -15,7 +15,6 @@ import com.edwin.android.thebestbakingapp.R;
 import com.edwin.android.thebestbakingapp.activities.RecipeDetailActivity;
 import com.edwin.android.thebestbakingapp.adapter.BackingPosterAdapter;
 import com.edwin.android.thebestbakingapp.entity.RecipeDTO;
-import com.edwin.android.thebestbakingapp.util.Constants;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -35,7 +34,11 @@ public class RecipeFragment extends Fragment implements BackingPosterAdapter
         .BackingPosterOnClickHandler {
 
     public static final String TAG = RecipeFragment.class.getSimpleName();
-    public static final String RECIPE_NAME = "RECIPE_NAME";
+
+    public enum IntentKey {
+        RECIPE_TYPE;
+    }
+
     @BindView(R.id.recycler_view_baking)
     RecyclerView mRecyclerView;
     private BackingPosterAdapter mBackingPosterAdapter;
@@ -99,7 +102,7 @@ public class RecipeFragment extends Fragment implements BackingPosterAdapter
         Class<RecipeDetailActivity> destinationActivity = RecipeDetailActivity.class;
         android.content.Intent intent = new android.content.Intent(RecipeFragment.this.getActivity(), destinationActivity);
 
-        intent.putExtra(Constants.Intent.RECIPE_TYPE, recipe);
+        intent.putExtra(IntentKey.RECIPE_TYPE.name(), recipe);
         startActivity(intent);
 
     }
