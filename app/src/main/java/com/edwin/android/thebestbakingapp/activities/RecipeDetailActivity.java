@@ -32,7 +32,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
     private void setupBar() {
         Intent intentThatStartedThisActivity = getIntent();
-        mRecipe = intentThatStartedThisActivity.getParcelableExtra(RecipeFragment.RECIPE_TYPE);
+        mRecipe = intentThatStartedThisActivity.getParcelableExtra(RecipeFragment.IntentKey.RECIPE_TYPE.name());
         mToolbar.setTitle(mRecipe.getName());
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
