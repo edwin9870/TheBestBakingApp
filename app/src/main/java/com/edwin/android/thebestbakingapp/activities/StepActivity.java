@@ -29,6 +29,13 @@ public class StepActivity extends AppCompatActivity {
         setupBar();
     }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mUnbinder.unbind();
+    }
+
     private void setupBar() {
         Intent intentThatStartedThisActivity = getIntent();
         String recipeName = intentThatStartedThisActivity.getStringExtra(RECIPE_NAME.name());
@@ -37,9 +44,4 @@ public class StepActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mUnbinder.unbind();
-    }
 }

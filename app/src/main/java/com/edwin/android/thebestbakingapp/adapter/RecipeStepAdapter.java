@@ -32,28 +32,6 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter
         this.mClickHandler = clickHandler;
     }
 
-    public interface RecipeStepOnClickHandler {
-        void onClick(int position);
-    }
-
-    class RecipeStepViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        @BindView(R.id.recipe_step_description)
-        TextView mRecipeStepDescriptionTextView;
-
-        RecipeStepViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            mClickHandler.onClick(getAdapterPosition());
-        }
-    }
-
-
     @Override
     public RecipeStepViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         Context context = viewGroup.getContext();
@@ -83,5 +61,27 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter
     public void setBackingPoster(StepDTO[] steps) {
         this.mSteps = steps;
         notifyDataSetChanged();
+    }
+
+
+    public interface RecipeStepOnClickHandler {
+        void onClick(int position);
+    }
+
+    class RecipeStepViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        @BindView(R.id.recipe_step_description)
+        TextView mRecipeStepDescriptionTextView;
+
+        RecipeStepViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            mClickHandler.onClick(getAdapterPosition());
+        }
     }
 }

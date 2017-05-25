@@ -29,6 +29,12 @@ public class RecipeDetailActivity extends AppCompatActivity {
         setupBar();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mUnbinder.unbind();
+    }
+
 
     private void setupBar() {
         Intent intentThatStartedThisActivity = getIntent();
@@ -38,9 +44,4 @@ public class RecipeDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mUnbinder.unbind();
-    }
 }

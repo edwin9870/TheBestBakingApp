@@ -49,9 +49,6 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.mClickHandler = clickHandler;
     }
 
-    public interface StepOnClickHandler {
-        void onClick(boolean nextStep);
-    }
 
 
     @Override
@@ -112,6 +109,49 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
+    @Override
+    public int getItemCount() {
+        if (null == mItems) {
+            return 0;
+        }
+
+        return mItems.size();
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        Log.d(TAG, "onDetachedFromRecyclerView called");
+        if (mExoPlayer != null) {
+            mExoPlayer.stop();
+            mExoPlayer.release();
+            mExoPlayer = null;
+        }
+    }
+
+    public void pauseVideo() {
+        if(mExoPlayer == null) {
+            return;
+        }
+        mExoPlayer.setPlayWhenReady(false);
+    }
+
+    public void playVideo() {
+        if(mExoPlayer == null) {
+            return;
+        }
+        mExoPlayer.setPlayWhenReady(true);
+    }
+
+    public void setBackingPoster(List<Object> items) {
+        this.mItems = items;
+        notifyDataSetChanged();
+    }
+
+    public interface StepOnClickHandler {
+        void onClick(boolean nextStep);
+    }
+
     private void configureViewHolder(StepVideoPlayerViewHolder holder, int position) {
         holder.mPlayerView.requestFocus();
         DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
@@ -157,45 +197,5 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
         });
     }
-
-    @Override
-    public int getItemCount() {
-        if (null == mItems) {
-            return 0;
-        }
-
-        return mItems.size();
-    }
-
-    public void setBackingPoster(List<Object> items) {
-        this.mItems = items;
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView);
-        Log.d(TAG, "onDetachedFromRecyclerView called");
-        if (mExoPlayer != null) {
-            mExoPlayer.stop();
-            mExoPlayer.release();
-            mExoPlayer = null;
-        }
-    }
-
-    public void pauseVideo() {
-        if(mExoPlayer == null) {
-            return;
-        }
-        mExoPlayer.setPlayWhenReady(false);
-    }
-
-    public void playVideo() {
-        if(mExoPlayer == null) {
-            return;
-        }
-        mExoPlayer.setPlayWhenReady(true);
-    }
-
 
 }

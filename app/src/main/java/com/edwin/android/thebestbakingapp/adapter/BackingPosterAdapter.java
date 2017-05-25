@@ -34,32 +34,6 @@ public class BackingPosterAdapter extends RecyclerView.Adapter<BackingPosterAdap
         this.mClickHandler = clickHandler;
     }
 
-    public interface BackingPosterOnClickHandler {
-        void onClick(RecipeDTO recipe);
-    }
-
-    class BackingPosterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        @BindView(R.id.image_baking_poster)
-        ImageView mBakingPosterImageView;
-        @BindView(R.id.recipe_name_text_view)
-        TextView mRecipeNameTextView;
-
-        BackingPosterViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            int adapterPosition = getAdapterPosition();
-            RecipeDTO movie = mRecipes[adapterPosition];
-            mClickHandler.onClick(movie);
-        }
-    }
-
-
     @Override
     public BackingPosterViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         Context context = viewGroup.getContext();
@@ -90,5 +64,31 @@ public class BackingPosterAdapter extends RecyclerView.Adapter<BackingPosterAdap
     public void setBackingPoster(RecipeDTO[] backingPoster) {
         this.mRecipes = backingPoster;
         notifyDataSetChanged();
+    }
+
+    class BackingPosterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        @BindView(R.id.image_baking_poster)
+        ImageView mBakingPosterImageView;
+        @BindView(R.id.recipe_name_text_view)
+        TextView mRecipeNameTextView;
+
+        BackingPosterViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int adapterPosition = getAdapterPosition();
+            RecipeDTO movie = mRecipes[adapterPosition];
+            mClickHandler.onClick(movie);
+        }
+    }
+
+
+    public interface BackingPosterOnClickHandler {
+        void onClick(RecipeDTO recipe);
     }
 }
