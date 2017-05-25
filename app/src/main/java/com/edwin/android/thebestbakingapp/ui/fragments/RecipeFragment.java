@@ -50,7 +50,8 @@ public class RecipeFragment extends Fragment implements BackingPosterAdapter
             Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_baking_recipe, container, false);
         mUnbinder = ButterKnife.bind(this, view);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1);
+        int backingColumnNumber = getResources().getInteger(R.integer.backing_column);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), backingColumnNumber);
         Log.d(TAG, "$gridLayoutManager: " + gridLayoutManager);
         mRecyclerView.setLayoutManager(gridLayoutManager);
         mRecyclerView.setHasFixedSize(false);
