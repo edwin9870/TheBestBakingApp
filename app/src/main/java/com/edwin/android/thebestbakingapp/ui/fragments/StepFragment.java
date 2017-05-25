@@ -1,4 +1,4 @@
-package com.edwin.android.thebestbakingapp.fragments;
+package com.edwin.android.thebestbakingapp.ui.fragments;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -15,8 +15,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.edwin.android.thebestbakingapp.R;
-import com.edwin.android.thebestbakingapp.activities.StepActivity;
-import com.edwin.android.thebestbakingapp.adapter.StepAdapter;
+import com.edwin.android.thebestbakingapp.ui.activities.StepActivity;
+import com.edwin.android.thebestbakingapp.ui.adapter.StepAdapter;
 import com.edwin.android.thebestbakingapp.entity.StepDTO;
 
 import java.util.ArrayList;
@@ -26,9 +26,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import static com.edwin.android.thebestbakingapp.fragments.RecipeDetailFragment.IntentKey.RECIPE_NAME;
-import static com.edwin.android.thebestbakingapp.fragments.RecipeDetailFragment.IntentKey.STEP_LIST;
-import static com.edwin.android.thebestbakingapp.fragments.RecipeDetailFragment.IntentKey
+import static com.edwin.android.thebestbakingapp.ui.fragments.RecipeDetailFragment.IntentKey.RECIPE_NAME;
+import static com.edwin.android.thebestbakingapp.ui.fragments.RecipeDetailFragment.IntentKey.STEP_LIST;
+import static com.edwin.android.thebestbakingapp.ui.fragments.RecipeDetailFragment.IntentKey
         .STEP_SELECTED;
 
 /**

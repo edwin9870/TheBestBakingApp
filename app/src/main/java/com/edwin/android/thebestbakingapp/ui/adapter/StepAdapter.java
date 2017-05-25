@@ -1,4 +1,4 @@
-package com.edwin.android.thebestbakingapp.adapter;
+package com.edwin.android.thebestbakingapp.ui.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.edwin.android.thebestbakingapp.R;
-import com.edwin.android.thebestbakingapp.fragments.StepFragment;
+import com.edwin.android.thebestbakingapp.ui.fragments.StepFragment;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;

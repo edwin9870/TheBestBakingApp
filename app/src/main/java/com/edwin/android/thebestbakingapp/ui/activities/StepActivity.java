@@ -1,4 +1,4 @@
-package com.edwin.android.thebestbakingapp.activities;
+package com.edwin.android.thebestbakingapp.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +11,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import static com.edwin.android.thebestbakingapp.fragments.RecipeDetailFragment.IntentKey
+import static com.edwin.android.thebestbakingapp.ui.fragments.RecipeDetailFragment.IntentKey
         .RECIPE_NAME;
 
 public class StepActivity extends AppCompatActivity {

@@ -1,21 +1,16 @@
-package com.edwin.android.thebestbakingapp.adapter;
+package com.edwin.android.thebestbakingapp.ui.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.TextView;
 
 import com.edwin.android.thebestbakingapp.R;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
@@ -54,7 +49,7 @@ public class StepVideoPlayerViewHolder extends RecyclerView.ViewHolder {
         }
 
     }
-    
+
     @NonNull
     private Point getDeviceSize(Activity activity) {
         Display display = activity.getWindowManager().getDefaultDisplay();

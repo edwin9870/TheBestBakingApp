@@ -5,7 +5,7 @@
                                                  android:layout_width="match_parent"
                                                  android:layout_height="match_parent"
                                                  android:fitsSystemWindows="false"
-                                                 tools:context="com.edwin.android.thebestbakingapp.activities.StepActivity">
+                                                 tools:context=".ui.activities.StepActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
     <fragment
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/recipe_detail_fragment"
-        android:name="com.edwin.android.thebestbakingapp.fragments.StepFragment"
+        android:name="com.edwin.android.thebestbakingapp.ui.fragments.StepFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>

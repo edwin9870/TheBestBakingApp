@@ -1,4 +1,4 @@
-package com.edwin.android.thebestbakingapp.fragments;
+package com.edwin.android.thebestbakingapp.ui.fragments;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,8 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.edwin.android.thebestbakingapp.R;
-import com.edwin.android.thebestbakingapp.activities.RecipeDetailActivity;
-import com.edwin.android.thebestbakingapp.adapter.BackingPosterAdapter;
+import com.edwin.android.thebestbakingapp.ui.activities.RecipeDetailActivity;
+import com.edwin.android.thebestbakingapp.ui.adapter.BackingPosterAdapter;
 import com.edwin.android.thebestbakingapp.entity.RecipeDTO;
 import com.google.gson.Gson;
 

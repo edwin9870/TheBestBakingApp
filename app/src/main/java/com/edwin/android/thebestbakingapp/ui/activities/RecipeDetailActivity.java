@@ -1,4 +1,4 @@
-package com.edwin.android.thebestbakingapp.activities;
+package com.edwin.android.thebestbakingapp.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +7,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.edwin.android.thebestbakingapp.R;
 import com.edwin.android.thebestbakingapp.entity.RecipeDTO;
-import com.edwin.android.thebestbakingapp.fragments.RecipeFragment;
+import com.edwin.android.thebestbakingapp.ui.fragments.RecipeFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
