@@ -40,17 +40,7 @@ public class StepVideoPlayerViewHolder extends RecyclerView.ViewHolder {
                 .ORIENTATION_LANDSCAPE) {
             Log.d(TAG, "Device is in landscape");
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                ((AppCompatActivity) activity).getSupportActionBar().hide();
-
-                itemView.getRootView().setSystemUiVisibility(
-                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                                | View.SYSTEM_UI_FLAG_FULLSCREEN
-                                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-            }
+            setFullScreen(itemView, (AppCompatActivity) activity);
 
 
             Log.d(TAG, "Setting video player to match all the screen");
@@ -64,7 +54,7 @@ public class StepVideoPlayerViewHolder extends RecyclerView.ViewHolder {
         }
 
     }
-
+    
     @NonNull
     private Point getDeviceSize(Activity activity) {
         Display display = activity.getWindowManager().getDefaultDisplay();
@@ -73,4 +63,17 @@ public class StepVideoPlayerViewHolder extends RecyclerView.ViewHolder {
         return size;
     }
 
+    private void setFullScreen(View itemView, AppCompatActivity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            activity.getSupportActionBar().hide();
+
+            itemView.getRootView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
+    }
 }
