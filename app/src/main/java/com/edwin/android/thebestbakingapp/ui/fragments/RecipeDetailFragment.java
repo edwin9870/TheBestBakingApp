@@ -1,5 +1,6 @@
 package com.edwin.android.thebestbakingapp.ui.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -39,6 +40,7 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepAdapter
 
     public static final String TAG = RecipeDetailFragment.class.getSimpleName();
     private Unbinder mUnbinder;
+    private RecipeStepAdapter.RecipeStepOnClickHandler mActivityCallBack;
 
     public enum IntentKey {
         STEP_LIST, RECIPE_NAME, STEP_SELECTED;
@@ -48,6 +50,13 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepAdapter
     RecyclerView mRecyclerView;
     private RecipeStepAdapter mRecipeStepAdapter;
     RecipeDTO mRecipe;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mActivityCallBack = (RecipeStepAdapter.RecipeStepOnClickHandler) context;
+
+    }
 
     @Nullable
     @Override
@@ -77,14 +86,7 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepAdapter
 
     @Override
     public void onClick(int position) {
-        Log.d(TAG, "step position clicked: " + position);
-        Class<StepActivity> destinationActivity = StepActivity.class;
-        Intent intent = new Intent(RecipeDetailFragment.this.getActivity(), destinationActivity);
-
-        intent.putParcelableArrayListExtra(IntentKey.STEP_LIST.name(), new ArrayList<Parcelable>(mRecipe.getSteps()));
-        intent.putExtra(RECIPE_NAME.name(), mRecipe.getName());
-        intent.putExtra(STEP_SELECTED.name(), position);
-        startActivity(intent);
+        mActivityCallBack.onClick(position);
     }
 
     @Override

@@ -67,6 +67,7 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case STEP_DESCRIPTION_VIEW_TYPE:
                 view = inflater.inflate(R.layout.item_step_description, viewGroup, false);
                 viewHolder = new StepDescriptionViewHolder(view);
+                Log.d(TAG, "Description view type inflated");
                 break;
             case NEXT_PREVIOUS_VIEW_TYPE:
                 view = inflater.inflate(R.layout.item_next_previous, viewGroup, false);
@@ -117,6 +118,7 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             return 0;
         }
 
+        Log.d(TAG, "items size: " + mItems.size());
         return mItems.size();
     }
 

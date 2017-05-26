@@ -15,9 +15,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.edwin.android.thebestbakingapp.R;
+import com.edwin.android.thebestbakingapp.entity.StepDTO;
 import com.edwin.android.thebestbakingapp.ui.activities.StepActivity;
 import com.edwin.android.thebestbakingapp.ui.adapter.StepAdapter;
-import com.edwin.android.thebestbakingapp.entity.StepDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +26,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import static com.edwin.android.thebestbakingapp.ui.fragments.RecipeDetailFragment.IntentKey.RECIPE_NAME;
-import static com.edwin.android.thebestbakingapp.ui.fragments.RecipeDetailFragment.IntentKey.STEP_LIST;
+import static com.edwin.android.thebestbakingapp.ui.fragments.RecipeDetailFragment.IntentKey
+        .RECIPE_NAME;
+import static com.edwin.android.thebestbakingapp.ui.fragments.RecipeDetailFragment.IntentKey
+        .STEP_LIST;
 import static com.edwin.android.thebestbakingapp.ui.fragments.RecipeDetailFragment.IntentKey
         .STEP_SELECTED;
 
 /**
- * Created by Edwin Ramirez Ventur on 5/21/2017.
+ * Created by Edwin Ramirez Ventura on 5/21/2017.
  */
 
 public class StepFragment extends Fragment implements StepAdapter.StepOnClickHandler {
@@ -52,8 +54,21 @@ public class StepFragment extends Fragment implements StepAdapter.StepOnClickHan
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
             Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_step, container, false);
+        mUnbinder = ButterKnife.bind(this, view);
+
+
+        if(savedInstanceState != null) {
+            Log.d(TAG, "Setting step using savedInstanceState");
+            mSteps = savedInstanceState.getParcelableArrayList(STEP_LIST.name());
+            mRecipeName = savedInstanceState.getString(RECIPE_NAME.name());
+            mStepSelected = savedInstanceState.getInt(STEP_SELECTED.name());
+
+            Log.d(TAG, "mSteps in savedInstanceState: "+mSteps);
+        }
 
         if(mSteps == null || mRecipeName == null) {
+            Log.d(TAG, "mSteps: "+ mSteps);
+            Log.d(TAG, "mRecipeName: "+ mRecipeName);
             Log.i(TAG, "This fragments has a null list of steps or a null recipe name");
             return view;
         }
@@ -61,8 +76,6 @@ public class StepFragment extends Fragment implements StepAdapter.StepOnClickHan
         if(mStepSelected == null) {
             mStepSelected = 0;
         }
-
-        mUnbinder = ButterKnife.bind(this, view);
 
         Log.d(TAG, "Steps received: " + mSteps);
         Log.d(TAG, "selected step: " + mStepSelected);
@@ -89,7 +102,6 @@ public class StepFragment extends Fragment implements StepAdapter.StepOnClickHan
         }
         mStepAdapter.setBackingPoster(items);
 
-
         return view;
     }
 
@@ -113,6 +125,7 @@ public class StepFragment extends Fragment implements StepAdapter.StepOnClickHan
         intent.putExtra(RECIPE_NAME.name(), mRecipeName);
         intent.putExtra(STEP_SELECTED.name(), mStepSelected);
         getActivity().finish();
+        Log.d(TAG, "Going to the next activity");
         startActivity(intent);
     }
 
@@ -143,6 +156,17 @@ public class StepFragment extends Fragment implements StepAdapter.StepOnClickHan
         mRecyclerView.setAdapter(null);
         mUnbinder.unbind();
     }
+
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(STEP_LIST.name(), new ArrayList<Parcelable>(mSteps));
+        outState.putString(RECIPE_NAME.name(), mRecipeName);
+        outState.putInt(STEP_SELECTED.name(), mStepSelected);
+    }
+
 
     public void setRecipeName(String recipeName) {
         this.mRecipeName = recipeName;

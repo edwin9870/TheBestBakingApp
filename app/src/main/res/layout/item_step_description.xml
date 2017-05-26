@@ -12,8 +12,8 @@
         android:id="@+id/text_recipe_step_description"
         style="@style/Base.TextAppearance.AppCompat.Body1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginTop="16dp"
-        tools:text="Sample description of a recipe.... :PPPPPPP"/>
+        android:text="Sample description of a recipe.... :PPPPPPP"/>
 
 </FrameLayout>

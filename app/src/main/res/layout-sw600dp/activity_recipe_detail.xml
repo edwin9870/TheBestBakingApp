@@ -25,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:baselineAligned="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:orientation="horizontal">
 
 
@@ -34,7 +35,6 @@
             android:name="com.edwin.android.thebestbakingapp.ui.fragments.RecipeDetailFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_weight="3"/>
 
         <View
@@ -47,14 +47,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1" />
-
-        <!--<fragment-->
-            <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-            <!--android:id="@+id/recipe_step_fragment"-->
-            <!--android:name="com.edwin.android.thebestbakingapp.ui.fragments.StepFragment"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"/>-->
 
     </LinearLayout>
 
