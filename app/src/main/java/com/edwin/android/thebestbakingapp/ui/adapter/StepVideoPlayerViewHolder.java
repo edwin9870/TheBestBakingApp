@@ -31,6 +31,9 @@ public class StepVideoPlayerViewHolder extends RecyclerView.ViewHolder {
     StepVideoPlayerViewHolder(View itemView, Activity activity) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+
+        Point size = getDeviceSize(activity);
+
         boolean isTablet = activity.getResources().getBoolean(R.bool.is_tablet);
         if (!isTablet && activity.getResources().getConfiguration().orientation == Configuration
                 .ORIENTATION_LANDSCAPE) {
@@ -42,11 +45,17 @@ public class StepVideoPlayerViewHolder extends RecyclerView.ViewHolder {
             Log.d(TAG, "Setting video player to match all the screen");
             ViewGroup.LayoutParams layoutParams = mPlayerView.getLayoutParams();
             layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-            Point size = getDeviceSize(activity);
             layoutParams.height = size.y;
             layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
             mPlayerView.setLayoutParams(layoutParams);
 
+        }
+
+        if(isTablet) {
+            ViewGroup.LayoutParams layoutParams = mPlayerView.getLayoutParams();
+            layoutParams.height = (int)(size.y*0.6);
+            layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+            mPlayerView.setLayoutParams(layoutParams);
         }
 
     }
