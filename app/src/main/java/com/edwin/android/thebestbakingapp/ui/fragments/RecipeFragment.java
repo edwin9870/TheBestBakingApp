@@ -1,30 +1,27 @@
 package com.edwin.android.thebestbakingapp.ui.fragments;
 
-import android.os.AsyncTask;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.edwin.android.thebestbakingapp.R;
+import com.edwin.android.thebestbakingapp.entity.RecipeDTO;
+import com.edwin.android.thebestbakingapp.loader.FetchRecipeLoaderCallBack;
 import com.edwin.android.thebestbakingapp.ui.activities.RecipeDetailActivity;
 import com.edwin.android.thebestbakingapp.ui.adapter.BackingPosterAdapter;
-import com.edwin.android.thebestbakingapp.entity.RecipeDTO;
-import com.google.gson.Gson;
-
-import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * Created by Edwin Ramirez Ventur on 5/20/2017.
@@ -34,15 +31,19 @@ public class RecipeFragment extends Fragment implements BackingPosterAdapter
         .BackingPosterOnClickHandler {
 
     public static final String TAG = RecipeFragment.class.getSimpleName();
+    public static final int FETCH_BAKING_RECIPES_LOADER = 5454;
+    @BindView(R.id.progress_bar_loading_indicator)
+    ProgressBar progressBarLoadingIndicator;
+    @BindView(R.id.recycler_view_baking)
+    RecyclerView mRecyclerView;
+    private BackingPosterAdapter mBackingPosterAdapter;
+    private Unbinder mUnbinder;
+
 
     public enum IntentKey {
         RECIPE_TYPE;
     }
 
-    @BindView(R.id.recycler_view_baking)
-    RecyclerView mRecyclerView;
-    private BackingPosterAdapter mBackingPosterAdapter;
-    private Unbinder mUnbinder;
 
     @Nullable
     @Override
@@ -51,7 +52,8 @@ public class RecipeFragment extends Fragment implements BackingPosterAdapter
         final View view = inflater.inflate(R.layout.fragment_baking_recipe, container, false);
         mUnbinder = ButterKnife.bind(this, view);
         int backingColumnNumber = getResources().getInteger(R.integer.backing_column);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), backingColumnNumber);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),
+                backingColumnNumber);
         Log.d(TAG, "$gridLayoutManager: " + gridLayoutManager);
         mRecyclerView.setLayoutManager(gridLayoutManager);
         mRecyclerView.setHasFixedSize(false);
@@ -61,47 +63,24 @@ public class RecipeFragment extends Fragment implements BackingPosterAdapter
         Log.i(TAG, "Calling the adapter");
         mRecyclerView.setAdapter(mBackingPosterAdapter);
 
-        new AsyncTask<Void, Void, RecipeDTO[]>() {
-
-            @Override
-            protected RecipeDTO[] doInBackground(Void... params) {
-                OkHttpClient client = new OkHttpClient();
-
-                String urlToGetData = getString(R.string.baking_url_data);
-                Request request = new Request.Builder()
-                        .url(urlToGetData)
-                        .build();
-
-                RecipeDTO[] recipeDTO = null;
-                try {
-                    Response response = client.newCall(request).execute();
-
-                    String responseJson = response.body().string();
-                    Gson gson = new Gson();
-                    recipeDTO = gson.fromJson(responseJson, RecipeDTO[].class);
-                } catch (IOException e) {
-                    Log.e(TAG, e.getMessage());
-                }
-
-                return recipeDTO;
-            }
-
-            @Override
-            protected void onPostExecute(RecipeDTO[] recipes) {
-                Log.d(TAG, "recipes size: " + recipes.length);
-                mBackingPosterAdapter.setBackingPoster(recipes);
-            }
-        }.execute();
-
+        setupLoader();
 
         return view;
     }
 
+    private void setupLoader() {
+        LoaderManager loaderManager = getActivity().getSupportLoaderManager();
+        FetchRecipeLoaderCallBack loaderCallback = new FetchRecipeLoaderCallBack(getActivity(),
+                mBackingPosterAdapter, progressBarLoadingIndicator, mRecyclerView);
+
+        loaderManager.initLoader(FETCH_BAKING_RECIPES_LOADER, new Bundle(), loaderCallback);
+    }
+
     @Override
     public void onClick(RecipeDTO recipe) {
-        Log.d(TAG, "Recipe name clicked: "+ recipe.getName());
+        Log.d(TAG, "Recipe name clicked: " + recipe.getName());
         Class<RecipeDetailActivity> destinationActivity = RecipeDetailActivity.class;
-        android.content.Intent intent = new android.content.Intent(RecipeFragment.this.getActivity(), destinationActivity);
+        Intent intent = new Intent(RecipeFragment.this.getActivity(), destinationActivity);
 
         intent.putExtra(IntentKey.RECIPE_TYPE.name(), recipe);
         startActivity(intent);
