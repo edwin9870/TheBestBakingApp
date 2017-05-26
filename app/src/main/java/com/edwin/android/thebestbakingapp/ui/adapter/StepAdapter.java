@@ -36,7 +36,6 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int VIDEO_PLAYER_VIEW_TYPE = 5454;
     private static final int STEP_DESCRIPTION_VIEW_TYPE = 7771;
     private static final int NEXT_PREVIOUS_VIEW_TYPE = 548954;
-    private static final String USER_AGENT = "The Best Baking App";
 
     public static final String TAG = StepAdapter.class.getSimpleName();
 
@@ -172,8 +171,9 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         Log.d(TAG, "Video url to play: " + videoUrl);
         Log.d(TAG, "Position: " + position);
+        String userAg = mActivity.getString(R.string.player_user_agent);
         MediaSource mediaSource = new ExtractorMediaSource(videoUrl,
-                new DefaultDataSourceFactory(mActivity, USER_AGENT), extractorsFactory, null, null);
+                new DefaultDataSourceFactory(mActivity, userAg), extractorsFactory, null, null);
         mExoPlayer.prepare(mediaSource);
         mExoPlayer.setPlayWhenReady(true);
     }
