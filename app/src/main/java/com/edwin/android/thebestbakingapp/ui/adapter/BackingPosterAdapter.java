@@ -48,7 +48,9 @@ public class BackingPosterAdapter extends RecyclerView.Adapter<BackingPosterAdap
     public void onBindViewHolder(BackingPosterViewHolder holder, int position) {
         RecipeDTO recipe = mRecipes[position];
         Picasso picasso = Picasso.with(mContext);
-        picasso.load(ImageUtil.getImagePosterResource()).fit().into(holder.mBakingPosterImageView);
+        picasso.load(ImageUtil.getImagePosterResource())
+                .error(R.drawable.ic_error)
+                .fit().into(holder.mBakingPosterImageView);
         holder.mRecipeNameTextView.setText(recipe.getName());
     }
 
