@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
+             android:id="@+id/frame_item_next_previous"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
-             android:paddingLeft="16dp"
-             android:paddingRight="16dp"
-             android:paddingTop="10dp"
-    android:paddingBottom="10dp">
+             android:paddingBottom="@dimen/frame_item_next_previous_padding_bottom"
+             android:paddingLeft="@dimen/frame_item_next_previous_padding_left"
+             android:paddingRight="@dimen/frame_item_next_previous_padding_right"
+             android:paddingTop="@dimen/frame_item_next_previous_padding_top">
 
 
     <LinearLayout
@@ -17,24 +17,24 @@
         <Button
             android:id="@+id/button_previous_step"
             android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:layout_marginRight="5dp"
-            android:textSize="14sp"
+            android:layout_height="@dimen/button_previous_step_height"
+            android:layout_marginEnd="@dimen/button_previous_step_margin_right"
+            android:layout_marginRight="@dimen/button_previous_step_margin_right"
             android:layout_weight="1"
             android:background="@drawable/step_pagination_button"
-            android:radius="10dp"
-            android:text="@string/previous"/>
+            android:text="@string/previous"
+            android:textSize="@dimen/button_previous_step_text_size"/>
 
         <Button
             android:id="@+id/button_next_step"
             android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:layout_marginLeft="5dp"
+            android:layout_height="@dimen/button_next_step_height"
+            android:layout_marginLeft="@dimen/button_next_step_margin_left"
+            android:layout_marginStart="@dimen/button_next_step_margin_left"
             android:layout_weight="1"
-            android:textSize="14sp"
             android:background="@drawable/step_pagination_button"
-            android:radius="10dp"
-            android:text="@string/next"/>
+            android:text="@string/next"
+            android:textSize="@dimen/button_previous_step_text_size"/>
 
     </LinearLayout>
 
