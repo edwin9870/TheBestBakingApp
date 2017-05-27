@@ -20,11 +20,8 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeSte
         .RecipeStepOnClickHandler {
 
 
-    public static final String EXTRA_INGREDIENT_LIST = "EXTRA_INGREDIENT_LIST";
     public static final String RECIPE_TYPE = "RECIPE_TYPE";
     public static final String STEP_SELECTED = "STEP_SELECTED";
-    //TODO: Delete constant below after delete ingredientActivity
-    public static final String EXTRA_RECIPE_NAME = "EXTRA_RECIPE_NAME";
 
     @BindView(R.id.toolbar_main)
     Toolbar mToolbar;
