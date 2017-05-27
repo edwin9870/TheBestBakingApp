@@ -5,15 +5,16 @@
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
              android:orientation="vertical"
-             android:paddingLeft="@dimen/frame_layout_item_recipe_step_padding_left"
-             android:paddingStart="@dimen/frame_layout_item_recipe_step_padding_left"
-             android:paddingRight="@dimen/frame_layout_item_recipe_step_padding_right"
              android:paddingEnd="@dimen/frame_layout_item_recipe_step_padding_right"
+             android:paddingLeft="@dimen/frame_layout_item_recipe_step_padding_left"
+             android:paddingRight="@dimen/frame_layout_item_recipe_step_padding_right"
+             android:paddingStart="@dimen/frame_layout_item_recipe_step_padding_left"
              android:paddingTop="@dimen/frame_layout_item_recipe_step_padding_top">
 
     <TextView
         android:id="@+id/text_recipe_item_description"
         style="@style/recipeItem"
+        android:gravity="center"
         tools:text="This is a simple description...."/>
 
 </FrameLayout>
