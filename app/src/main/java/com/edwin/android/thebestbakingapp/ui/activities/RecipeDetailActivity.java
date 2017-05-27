@@ -2,7 +2,6 @@ package com.edwin.android.thebestbakingapp.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,46 +10,48 @@ import android.util.Log;
 import com.edwin.android.thebestbakingapp.R;
 import com.edwin.android.thebestbakingapp.entity.RecipeDTO;
 import com.edwin.android.thebestbakingapp.ui.adapter.RecipeStepAdapter;
-import com.edwin.android.thebestbakingapp.ui.fragments.RecipeDetailFragment;
-import com.edwin.android.thebestbakingapp.ui.fragments.RecipeFragment;
 import com.edwin.android.thebestbakingapp.ui.fragments.StepFragment;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import static com.edwin.android.thebestbakingapp.ui.fragments.RecipeDetailFragment.IntentKey.RECIPE_NAME;
-import static com.edwin.android.thebestbakingapp.ui.fragments.RecipeDetailFragment.IntentKey
-        .STEP_SELECTED;
+public class RecipeDetailActivity extends AppCompatActivity implements RecipeStepAdapter
+        .RecipeStepOnClickHandler {
 
-public class RecipeDetailActivity extends AppCompatActivity implements RecipeStepAdapter.RecipeStepOnClickHandler {
+
+    public static final String EXTRA_INGREDIENT_LIST = "EXTRA_INGREDIENT_LIST";
+    public static final String RECIPE_TYPE = "RECIPE_TYPE";
+    public static final String STEP_SELECTED = "STEP_SELECTED";
+    //TODO: Delete constant below after delete ingredientActivity
+    public static final String EXTRA_RECIPE_NAME = "EXTRA_RECIPE_NAME";
 
     @BindView(R.id.toolbar_main)
     Toolbar mToolbar;
     private RecipeDTO mRecipe;
     private Unbinder mUnbinder;
     private boolean mTwopane;
-    public static final String TAG =RecipeDetailActivity.class.getSimpleName();
+    public static final String TAG = RecipeDetailActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_detail);
         mUnbinder = ButterKnife.bind(this);
+        mRecipe = getIntent().getParcelableExtra(RECIPE_TYPE);
         setupBar();
 
-        if(findViewById(R.id.master_detail_recipe) != null) {
+        if (findViewById(R.id.master_detail_recipe) != null) {
             mTwopane = true;
 
-            if(savedInstanceState == null) {
+            Log.d(TAG, "Checking if savedInstance is null");
+            if (savedInstanceState == null) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
 
                 Log.d(TAG, "Adding StepFragment");
                 StepFragment fragment = new StepFragment();
-                mRecipe = getIntent().getParcelableExtra(RecipeFragment.IntentKey.RECIPE_TYPE.name());
-                fragment.setSteps(mRecipe.getSteps());
+
+                fragment.setRecipe(mRecipe);
                 fragment.setRecipeName(mRecipe.getName());
 
                 fragmentManager.beginTransaction().add(R.id.step_detail, fragment)
@@ -67,32 +68,35 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeSte
     }
 
     @Override
-    public void onClick(int position) {
+    public void onClick(int position, int recipeItemViewType) {
         Log.d(TAG, "step position clicked: " + position);
-        if(mTwopane) {
-            StepFragment fragment = new StepFragment();
-            fragment.setSteps(mRecipe.getSteps());
-            fragment.setRecipeName(mRecipe.getName());
-            fragment.setStepSelected(position);
+        Log.d(TAG, "recipeItemViewType: " + recipeItemViewType);
+        if (mTwopane) {
+            StepFragment stepFragment = new StepFragment();
+            stepFragment.setRecipe(mRecipe);
+            stepFragment.setRecipeName(mRecipe.getName());
+            stepFragment.setStepSelected(position);
 
-            Log.i(TAG, "Replacing fragment step with index: "+ position);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.step_detail, fragment)
+                    .replace(R.id.step_detail, stepFragment)
                     .commit();
         } else {
-            Class<StepActivity> destinationActivity = StepActivity.class;
-            Intent intent = new Intent(this, destinationActivity);
+            Class<? extends AppCompatActivity> destinationActivity;
+            Intent intent;
 
-            intent.putParcelableArrayListExtra(RecipeDetailFragment.IntentKey.STEP_LIST.name(), new ArrayList<Parcelable>(mRecipe.getSteps()));
-            intent.putExtra(RECIPE_NAME.name(), mRecipe.getName());
-            intent.putExtra(STEP_SELECTED.name(), position);
+            destinationActivity = StepActivity.class;
+            intent = new Intent(this, destinationActivity);
+
+            Log.d(TAG, "mRecipe: " + mRecipe);
+            Log.d(TAG, "step selected: "+ position);
+            intent.putExtra(RECIPE_TYPE, mRecipe);
+            intent.putExtra(STEP_SELECTED, position);
             startActivity(intent);
+
         }
     }
 
     private void setupBar() {
-        Intent intentThatStartedThisActivity = getIntent();
-        mRecipe = intentThatStartedThisActivity.getParcelableExtra(RecipeFragment.IntentKey.RECIPE_TYPE.name());
         mToolbar.setTitle(mRecipe.getName());
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

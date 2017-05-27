@@ -2,6 +2,7 @@ package com.edwin.android.thebestbakingapp.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,8 +85,9 @@ public class BackingPosterAdapter extends RecyclerView.Adapter<BackingPosterAdap
         @Override
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
-            RecipeDTO movie = mRecipes[adapterPosition];
-            mClickHandler.onClick(movie);
+            RecipeDTO recipe = mRecipes[adapterPosition];
+            Log.d(TAG, "clicked recipe: "+ recipe);
+            mClickHandler.onClick(recipe);
         }
     }
 

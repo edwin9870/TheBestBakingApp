@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.edwin.android.thebestbakingapp.R;
+import com.edwin.android.thebestbakingapp.entity.IngredientDTO;
 import com.edwin.android.thebestbakingapp.ui.fragments.StepFragment;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -36,6 +37,7 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int VIDEO_PLAYER_VIEW_TYPE = 5454;
     private static final int STEP_DESCRIPTION_VIEW_TYPE = 7771;
     private static final int NEXT_PREVIOUS_VIEW_TYPE = 548954;
+    public static final int INGREDIENT_VIEW_TYPE = 54111;
 
     public static final String TAG = StepAdapter.class.getSimpleName();
 
@@ -49,7 +51,6 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.mActivity = activity;
         this.mClickHandler = clickHandler;
     }
-
 
 
     @Override
@@ -72,6 +73,10 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 view = inflater.inflate(R.layout.item_next_previous, viewGroup, false);
                 viewHolder = new StepNextPreviousViewHolder(view);
                 break;
+            case INGREDIENT_VIEW_TYPE:
+                view = inflater.inflate(R.layout.item_ingredient, viewGroup, false);
+                viewHolder = new IngredientViewHolder(view);
+                break;
             default:
                 throw new IllegalArgumentException("Invalid viewType: " + viewType);
         }
@@ -83,8 +88,10 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public int getItemViewType(int position) {
         if (mItems.get(position) instanceof Uri) {
             return VIDEO_PLAYER_VIEW_TYPE;
-        } else if (mItems.get(position) instanceof String && mItems.get(position)
-                .equals(StepFragment.NAVIGATION_ITEM)) {
+        } else if (mItems.get(position) instanceof IngredientDTO) {
+            return INGREDIENT_VIEW_TYPE;
+        } else if (mItems.get(position) instanceof String && mItems.get(position).equals
+                (StepFragment.NAVIGATION_ITEM)) {
             return NEXT_PREVIOUS_VIEW_TYPE;
         } else if (mItems.get(position) instanceof String) {
             return STEP_DESCRIPTION_VIEW_TYPE;
@@ -104,6 +111,9 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 break;
             case NEXT_PREVIOUS_VIEW_TYPE:
                 configureViewHolder((StepNextPreviousViewHolder) holder, position);
+                break;
+            case INGREDIENT_VIEW_TYPE:
+                configureViewHolder((IngredientViewHolder) holder, position);
                 break;
             default:
                 throw new IllegalArgumentException("Invalid item view type: " + holder
@@ -133,14 +143,14 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public void pauseVideo() {
-        if(mExoPlayer == null) {
+        if (mExoPlayer == null) {
             return;
         }
         mExoPlayer.setPlayWhenReady(false);
     }
 
     public void playVideo() {
-        if(mExoPlayer == null) {
+        if (mExoPlayer == null) {
             return;
         }
         mExoPlayer.setPlayWhenReady(true);
@@ -194,6 +204,7 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
         });
 
+
         holder.mPreviousStepButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -202,5 +213,15 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
         });
     }
+
+    private void configureViewHolder(IngredientViewHolder holder, int position) {
+        IngredientDTO ingredient = (IngredientDTO) mItems.get(position);
+        Log.d(TAG, "ingredient: " + ingredient);
+        Log.d(TAG, "position: " + position);
+        holder.textIngredientName.setText(ingredient.getIngredient());
+        holder.textIngredientMeasure.setText(ingredient.getMeasure());
+        holder.textIngredientQuantity.setText(String.valueOf(ingredient.getQuantity()));
+    }
+
 
 }

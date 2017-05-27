@@ -3,7 +3,6 @@ package com.edwin.android.thebestbakingapp.ui.fragments;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.edwin.android.thebestbakingapp.R;
-import com.edwin.android.thebestbakingapp.entity.StepDTO;
+import com.edwin.android.thebestbakingapp.entity.RecipeDTO;
 import com.edwin.android.thebestbakingapp.ui.activities.StepActivity;
 import com.edwin.android.thebestbakingapp.ui.adapter.StepAdapter;
 
@@ -26,12 +25,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import static com.edwin.android.thebestbakingapp.ui.fragments.RecipeDetailFragment.IntentKey
-        .RECIPE_NAME;
-import static com.edwin.android.thebestbakingapp.ui.fragments.RecipeDetailFragment.IntentKey
-        .STEP_LIST;
-import static com.edwin.android.thebestbakingapp.ui.fragments.RecipeDetailFragment.IntentKey
-        .STEP_SELECTED;
+import static com.edwin.android.thebestbakingapp.ui.activities.RecipeDetailActivity.RECIPE_TYPE;
+import static com.edwin.android.thebestbakingapp.ui.activities.RecipeDetailActivity.STEP_SELECTED;
 
 /**
  * Created by Edwin Ramirez Ventura on 5/21/2017.
@@ -44,7 +39,7 @@ public class StepFragment extends Fragment implements StepAdapter.StepOnClickHan
     @BindView(R.id.recycler_view_step)
     RecyclerView mRecyclerView;
     private StepAdapter mStepAdapter;
-    private List<StepDTO> mSteps;
+    private RecipeDTO mRecipe;
     private Integer mStepSelected;
     private String mRecipeName;
     private Unbinder mUnbinder;
@@ -57,27 +52,27 @@ public class StepFragment extends Fragment implements StepAdapter.StepOnClickHan
         mUnbinder = ButterKnife.bind(this, view);
 
 
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             Log.d(TAG, "Setting step using savedInstanceState");
-            mSteps = savedInstanceState.getParcelableArrayList(STEP_LIST.name());
-            mRecipeName = savedInstanceState.getString(RECIPE_NAME.name());
-            mStepSelected = savedInstanceState.getInt(STEP_SELECTED.name());
+            mRecipe = savedInstanceState.getParcelable(RECIPE_TYPE);
+            mRecipeName = mRecipe.getName();
+            mStepSelected = savedInstanceState.getInt(STEP_SELECTED);
 
-            Log.d(TAG, "mSteps in savedInstanceState: "+mSteps);
+            Log.d(TAG, "mRecipe in savedInstanceState: " + mRecipe);
         }
 
-        if(mSteps == null || mRecipeName == null) {
-            Log.d(TAG, "mSteps: "+ mSteps);
-            Log.d(TAG, "mRecipeName: "+ mRecipeName);
+        if (mRecipe == null || mRecipeName == null) {
+            Log.d(TAG, "mRecipe: " + mRecipe);
+            Log.d(TAG, "mRecipeName: " + mRecipeName);
             Log.i(TAG, "This fragments has a null list of steps or a null recipe name");
             return view;
         }
 
-        if(mStepSelected == null) {
+        if (mStepSelected == null) {
             mStepSelected = 0;
         }
 
-        Log.d(TAG, "Steps received: " + mSteps);
+        Log.d(TAG, "recipe received: " + mRecipe);
         Log.d(TAG, "selected step: " + mStepSelected);
 
         LinearLayoutManager layoutManager
@@ -89,15 +84,27 @@ public class StepFragment extends Fragment implements StepAdapter.StepOnClickHan
 
         List<Object> items = new ArrayList<>();
 
-        Uri videoUri = Uri.parse(mSteps.get(mStepSelected).getVideoUrl());
 
-        if(videoUri != null && !videoUri.toString().isEmpty()) {
+        boolean isIngredientStep = mStepSelected == 0;
+        int localStepSelected = mStepSelected;
+        if(!isIngredientStep) {
+            localStepSelected--;
+        }
+
+        Uri videoUri = Uri.parse(mRecipe.getSteps().get(localStepSelected).getVideoUrl());
+
+        if (!isIngredientStep && videoUri != null && !videoUri.toString().isEmpty()) {
             items.add(videoUri);
         }
-        items.add(mSteps.get(mStepSelected).getDescription());
+
+        if(isIngredientStep) {
+         items.addAll(mRecipe.getIngredients());
+        } else {
+            items.add(mRecipe.getSteps().get(localStepSelected).getDescription());
+        }
 
         boolean isTablet = getActivity().getResources().getBoolean(R.bool.is_tablet);
-        if(!isTablet) {
+        if (!isTablet) {
             items.add(NAVIGATION_ITEM);
         }
         mStepAdapter.setBackingPoster(items);
@@ -108,9 +115,9 @@ public class StepFragment extends Fragment implements StepAdapter.StepOnClickHan
     @Override
     public void onClick(boolean nextStep) {
         Log.d(TAG, "nextStep: " + nextStep);
-        if(nextStep && mStepSelected < (mSteps.size()-1)) {
-                mStepSelected++;
-        }else if(!nextStep && mStepSelected > 0){
+        if (nextStep && mStepSelected < mRecipe.getSteps().size()) {
+            mStepSelected++;
+        } else if (!nextStep && mStepSelected > 0) {
             mStepSelected--;
         } else {
             Log.d(TAG, "There is not more page to go");
@@ -121,9 +128,8 @@ public class StepFragment extends Fragment implements StepAdapter.StepOnClickHan
         Class<StepActivity> destinationActivity = StepActivity.class;
         Intent intent = new Intent(getActivity(), destinationActivity);
 
-        intent.putParcelableArrayListExtra(RecipeDetailFragment.IntentKey.STEP_LIST.name(), new ArrayList<Parcelable>(mSteps));
-        intent.putExtra(RECIPE_NAME.name(), mRecipeName);
-        intent.putExtra(STEP_SELECTED.name(), mStepSelected);
+        intent.putExtra(RECIPE_TYPE, mRecipe);
+        intent.putExtra(STEP_SELECTED, mStepSelected);
         getActivity().finish();
         Log.d(TAG, "Going to the next activity");
         startActivity(intent);
@@ -134,7 +140,7 @@ public class StepFragment extends Fragment implements StepAdapter.StepOnClickHan
         super.onResume();
         Log.d(TAG, "onResume called");
 
-        if(mStepAdapter != null) {
+        if (mStepAdapter != null) {
             mStepAdapter.playVideo();
         }
     }
@@ -144,7 +150,7 @@ public class StepFragment extends Fragment implements StepAdapter.StepOnClickHan
         super.onPause();
         Log.d(TAG, "onPause called");
 
-        if(mStepAdapter != null) {
+        if (mStepAdapter != null) {
             mStepAdapter.pauseVideo();
         }
     }
@@ -158,13 +164,11 @@ public class StepFragment extends Fragment implements StepAdapter.StepOnClickHan
     }
 
 
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(STEP_LIST.name(), new ArrayList<Parcelable>(mSteps));
-        outState.putString(RECIPE_NAME.name(), mRecipeName);
-        outState.putInt(STEP_SELECTED.name(), mStepSelected);
+        outState.putParcelable(RECIPE_TYPE, mRecipe);
+        outState.putInt(STEP_SELECTED, mStepSelected);
     }
 
 
@@ -172,8 +176,8 @@ public class StepFragment extends Fragment implements StepAdapter.StepOnClickHan
         this.mRecipeName = recipeName;
     }
 
-    public void setSteps(List<StepDTO> steps) {
-        this.mSteps = steps;
+    public void setRecipe(RecipeDTO recipe) {
+        this.mRecipe = recipe;
     }
 
     public void setStepSelected(int stepSelected) {

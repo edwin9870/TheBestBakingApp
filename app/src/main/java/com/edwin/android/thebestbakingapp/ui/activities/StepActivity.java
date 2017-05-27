@@ -1,30 +1,21 @@
 package com.edwin.android.thebestbakingapp.ui.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.edwin.android.thebestbakingapp.R;
-import com.edwin.android.thebestbakingapp.entity.StepDTO;
+import com.edwin.android.thebestbakingapp.entity.RecipeDTO;
 import com.edwin.android.thebestbakingapp.ui.fragments.StepFragment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import static com.edwin.android.thebestbakingapp.ui.fragments.RecipeDetailFragment.IntentKey
-        .RECIPE_NAME;
-import static com.edwin.android.thebestbakingapp.ui.fragments.RecipeDetailFragment.IntentKey
-        .STEP_LIST;
-import static com.edwin.android.thebestbakingapp.ui.fragments.RecipeDetailFragment.IntentKey
-        .STEP_SELECTED;
+import static com.edwin.android.thebestbakingapp.ui.activities.RecipeDetailActivity.RECIPE_TYPE;
+import static com.edwin.android.thebestbakingapp.ui.activities.RecipeDetailActivity.STEP_SELECTED;
 
 public class StepActivity extends AppCompatActivity {
 
@@ -32,7 +23,7 @@ public class StepActivity extends AppCompatActivity {
     @BindView(R.id.toolbar_recipe_step)
     Toolbar mToolbarRecipeStep;
     private Unbinder mUnbinder;
-    private List<StepDTO> mSteps;
+    private RecipeDTO recipe;
     private String mRecipeName;
     private int mStepSelected;
 
@@ -44,40 +35,38 @@ public class StepActivity extends AppCompatActivity {
 
 
         Log.d(TAG, "Configuring setup bar");
-        setupBar();
-
-
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         StepFragment stepFragment = new StepFragment();
 
         Log.d(TAG, "Checking if savedInstanceState is null");
+        //TODO: Check if I avoid recreate the data if savedInstance is not null
         if (savedInstanceState != null) {
             Log.d(TAG, "Settings variables using savedInstanceState: " + savedInstanceState);
 
-            mSteps = savedInstanceState.getParcelableArrayList(STEP_LIST.name());
-            mRecipeName = savedInstanceState.getString(RECIPE_NAME.name());
-            mStepSelected = savedInstanceState.getInt(STEP_SELECTED.name());
+            recipe = savedInstanceState.getParcelable(RecipeDetailActivity.RECIPE_TYPE);
+            mRecipeName = recipe.getName();
+            mStepSelected = savedInstanceState.getInt(STEP_SELECTED);
 
-            Log.d(TAG, "mSteps in savedInstanceState: "+mSteps);
+            Log.d(TAG, "recipe in savedInstanceState: " + recipe);
         } else {
             Log.d(TAG, "Settings variables using intent");
-            mSteps = getIntent().getParcelableArrayListExtra(STEP_LIST
-                    .name());
-            mRecipeName = getIntent().getStringExtra(RECIPE_NAME.name());
+            recipe = getIntent().getParcelableExtra(RecipeDetailActivity.RECIPE_TYPE);
+            mRecipeName = recipe.getName();
 
-            if (getIntent().hasExtra(STEP_SELECTED.name())) {
-                mStepSelected = getIntent().getIntExtra(STEP_SELECTED.name(), 0);
-                stepFragment.setStepSelected(mStepSelected);
+            if (getIntent().hasExtra(STEP_SELECTED)) {
+                mStepSelected = getIntent().getIntExtra(STEP_SELECTED, 0);
             }
 
         }
+        setupBar();
 
 
         stepFragment.setRecipeName(mRecipeName);
-        stepFragment.setSteps(mSteps);
+        stepFragment.setRecipe(recipe);
+        stepFragment.setStepSelected(mStepSelected);
 
-        if(savedInstanceState == null) {
+        if (savedInstanceState == null) {
             fragmentManager.beginTransaction()
                     .add(R.id.recipe_step_fragment, stepFragment)
                     .commit();
@@ -95,17 +84,13 @@ public class StepActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(STEP_LIST.name(), new ArrayList<Parcelable>(mSteps));
-        outState.putString(RECIPE_NAME.name(), mRecipeName);
-        outState.putInt(STEP_SELECTED.name(), mStepSelected);
+        outState.putParcelable(RECIPE_TYPE, recipe);
+        outState.putInt(STEP_SELECTED, mStepSelected);
     }
 
 
-
     private void setupBar() {
-        Intent intentThatStartedThisActivity = getIntent();
-        String recipeName = intentThatStartedThisActivity.getStringExtra(RECIPE_NAME.name());
-        mToolbarRecipeStep.setTitle(recipeName);
+        mToolbarRecipeStep.setTitle(recipe.getName());
         setSupportActionBar(mToolbarRecipeStep);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }

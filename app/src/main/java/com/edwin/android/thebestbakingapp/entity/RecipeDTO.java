@@ -24,7 +24,6 @@ public class RecipeDTO implements Parcelable {
     @com.google.gson.annotations.SerializedName("image")
     private String image;
 
-
     public int getId() {
         return id;
     }
@@ -101,12 +100,30 @@ public class RecipeDTO implements Parcelable {
                 '}';
     }
 
+
+
     protected RecipeDTO(Parcel in) {
         id = in.readInt();
         name = in.readString();
+        ingredients = in.createTypedArrayList(IngredientDTO.CREATOR);
         steps = in.createTypedArrayList(StepDTO.CREATOR);
         servings = in.readInt();
         image = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeTypedList(ingredients);
+        dest.writeTypedList(steps);
+        dest.writeInt(servings);
+        dest.writeString(image);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<RecipeDTO> CREATOR = new Creator<RecipeDTO>() {
@@ -121,17 +138,4 @@ public class RecipeDTO implements Parcelable {
         }
     };
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeString(name);
-        dest.writeTypedList(steps);
-        dest.writeInt(servings);
-        dest.writeString(image);
-    }
 }

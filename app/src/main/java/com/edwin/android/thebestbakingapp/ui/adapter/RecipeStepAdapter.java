@@ -6,82 +6,96 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.edwin.android.thebestbakingapp.R;
 import com.edwin.android.thebestbakingapp.entity.StepDTO;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import java.util.List;
 
 /**
  * Created by Edwin Ramirez Ventur on 5/19/2017.
  */
 
-public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter
-        .RecipeStepViewHolder> {
+public class RecipeStepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     public static final String TAG = RecipeStepAdapter.class.getSimpleName();
-    private StepDTO[] mSteps;
-    private Context mContext;
-    private RecipeStepOnClickHandler mClickHandler;
+    public static final int VIEW_TYPE_STEP = 5452;
+    public static final int VIEW_TYPE_INGREDIENT = 11557;
 
-    public RecipeStepAdapter(Context context, RecipeStepOnClickHandler clickHandler) {
-        this.mContext = context;
+    private RecipeStepOnClickHandler mClickHandler;
+    private List<Object> mItems;
+
+    public RecipeStepAdapter(RecipeStepOnClickHandler clickHandler) {
         this.mClickHandler = clickHandler;
     }
 
     @Override
-    public RecipeStepViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         Context context = viewGroup.getContext();
-        int idLayoutForMovieItem = R.layout.item_recipe_step;
         LayoutInflater inflater = LayoutInflater.from(context);
+        RecyclerView.ViewHolder viewHolder;
 
-        View view = inflater.inflate(idLayoutForMovieItem, viewGroup, false);
-        return new RecipeStepViewHolder(view);
+        View view = inflater.inflate(R.layout.item_recipe_step, viewGroup, false);
+        viewHolder = new RecipeStepItemViewHolder(view, mClickHandler);
+
+
+        return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(RecipeStepViewHolder holder, int position) {
-        StepDTO recipe = mSteps[position];
-        Log.d(TAG, "Recipe short description: " + recipe.getShortDescription());
-        holder.mRecipeStepDescriptionTextView.setText(recipe.getShortDescription());
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+        configureViewHolder((RecipeStepItemViewHolder) holder, position);
+
     }
+
+    private void configureViewHolder(RecipeStepItemViewHolder holder, int position) {
+        String label;
+        switch (holder.getItemViewType()) {
+            case VIEW_TYPE_STEP:
+                label = ((StepDTO) mItems.get(position)).getShortDescription();
+                break;
+            case VIEW_TYPE_INGREDIENT:
+                label = (String) mItems.get(position);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid element type");
+        }
+
+        Log.d(TAG, "label: " + label);
+        holder.mRecipeStepDescriptionTextView.setText(label);
+    }
+
 
     @Override
     public int getItemCount() {
-        if (null == mSteps) {
+        if (null == mItems) {
             return 0;
         }
 
-        return mSteps.length;
+        return mItems.size();
     }
 
-    public void setBackingPoster(StepDTO[] steps) {
-        this.mSteps = steps;
+    @Override
+    public int getItemViewType(int position) {
+        if(mItems.get(position) instanceof StepDTO) {
+            return VIEW_TYPE_STEP;
+        }else if(mItems.get(position) instanceof String) {
+            return VIEW_TYPE_INGREDIENT;
+        }else {
+            throw new IllegalArgumentException("Invalid element type");
+        }
+
+    }
+
+    public void setItems(List<Object> items) {
+        this.mItems = items;
         notifyDataSetChanged();
     }
 
-
     public interface RecipeStepOnClickHandler {
-        void onClick(int position);
+        void onClick(int position, int recipeItemViewType);
     }
 
-    class RecipeStepViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        @BindView(R.id.text_recipe_step_short_description)
-        TextView mRecipeStepDescriptionTextView;
-
-        RecipeStepViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            mClickHandler.onClick(getAdapterPosition());
-        }
-    }
 }

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/frame_layout_item_ingredient"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:paddingEnd="@dimen/frame_layout_item_ingredient_padding_right"
+              android:paddingLeft="@dimen/frame_layout_item_ingredient_padding_left"
+              android:paddingRight="@dimen/frame_layout_item_ingredient_padding_right"
+              android:paddingStart="@dimen/frame_layout_item_ingredient_padding_left"
+              android:paddingTop="@dimen/frame_layout_item_ingredient_padding_top">
+
+    <!-- TODO: Replace LinearLayout's dimen for its owns-->
+
+    <TextView
+        android:id="@+id/text_ingredient_quantity"
+        style="@style/ingredient"
+        tools:text="6"/>
+
+    <TextView
+        android:id="@+id/text_ingredient_measure"
+        style="@style/ingredient"
+        android:layout_marginLeft="16dp"
+        tools:text="TSP"/>
+
+    <TextView
+        android:id="@+id/text_ingredient_name"
+        style="@style/ingredient"
+        android:layout_marginLeft="5dp"
+        android:textColor="@color/colorSecondary"
+        tools:text="granulated sugar"/>
+
+</LinearLayout>

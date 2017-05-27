@@ -41,7 +41,7 @@ public class FetchRecipeLoaderCallBack implements LoaderManager.LoaderCallbacks<
 
     @Override
     public void onLoadFinished(Loader<RecipeDTO[]> loader, RecipeDTO[] data) {
-        Log.d(TAG, "Recipes: "+ data);
+        Log.d(TAG, "Recipes: "+ data[0].toString());
         mAdapter.setBackingPoster(data);
         mProgressBar.setVisibility(View.INVISIBLE);
         mRecyclerView.setVisibility(View.VISIBLE);

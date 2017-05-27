@@ -40,11 +40,6 @@ public class RecipeFragment extends Fragment implements BackingPosterAdapter
     private Unbinder mUnbinder;
 
 
-    public enum IntentKey {
-        RECIPE_TYPE;
-    }
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
@@ -82,7 +77,7 @@ public class RecipeFragment extends Fragment implements BackingPosterAdapter
         Class<RecipeDetailActivity> destinationActivity = RecipeDetailActivity.class;
         Intent intent = new Intent(RecipeFragment.this.getActivity(), destinationActivity);
 
-        intent.putExtra(IntentKey.RECIPE_TYPE.name(), recipe);
+        intent.putExtra(RecipeDetailActivity.RECIPE_TYPE, recipe);
         startActivity(intent);
 
     }
