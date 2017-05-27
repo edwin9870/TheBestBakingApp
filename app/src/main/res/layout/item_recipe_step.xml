@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/linear_layout_item_recipe_step"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical"
-              android:paddingLeft="@dimen/frame_layout_item_recipe_step_padding_left"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:id="@+id/linear_layout_item_recipe_step"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:orientation="vertical"
+             android:paddingLeft="@dimen/frame_layout_item_recipe_step_padding_left"
              android:paddingStart="@dimen/frame_layout_item_recipe_step_padding_left"
-              android:paddingRight="@dimen/frame_layout_item_recipe_step_padding_right"
+             android:paddingRight="@dimen/frame_layout_item_recipe_step_padding_right"
              android:paddingEnd="@dimen/frame_layout_item_recipe_step_padding_right"
-              android:paddingTop="@dimen/frame_layout_item_recipe_step_padding_top">
+             android:paddingTop="@dimen/frame_layout_item_recipe_step_padding_top">
 
     <TextView
         android:id="@+id/text_recipe_item_description"
-        style="@style/recipeItem"/>
+        style="@style/recipeItem"
+        tools:text="This is a simple description...."/>
 
 </FrameLayout>
