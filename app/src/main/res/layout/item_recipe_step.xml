@@ -9,7 +9,8 @@
              android:paddingLeft="@dimen/layout_item_recipe_step_padding_left"
              android:paddingRight="@dimen/layout_item_recipe_step_padding_right"
              android:paddingStart="@dimen/layout_item_recipe_step_padding_left"
-             android:paddingTop="@dimen/layout_item_recipe_step_padding_top">
+             android:paddingTop="@dimen/layout_item_recipe_step_padding_top"
+              android:paddingBottom="@dimen/layout_item_recipe_step_padding_bottom">
 
     <TextView
         android:id="@+id/text_recipe_item_description"
