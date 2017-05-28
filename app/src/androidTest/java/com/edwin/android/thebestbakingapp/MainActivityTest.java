@@ -37,7 +37,6 @@ import static org.hamcrest.Matchers.is;
 @LargeTest
 public class MainActivityTest {
 
-    public static final String TAG = MainActivityTest.class.getSimpleName();
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule =
             new ActivityTestRule<>(MainActivity.class);
