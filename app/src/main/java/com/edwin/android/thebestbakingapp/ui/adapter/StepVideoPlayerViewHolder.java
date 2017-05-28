@@ -45,8 +45,8 @@ public class StepVideoPlayerViewHolder extends RecyclerView.ViewHolder {
             Log.d(TAG, "Setting video player to match all the screen");
             ViewGroup.LayoutParams layoutParams = mPlayerView.getLayoutParams();
             layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+            Log.d(TAG, "Device height: "+size.y);
             layoutParams.height = size.y;
-            layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
             mPlayerView.setLayoutParams(layoutParams);
 
         }
@@ -77,8 +77,7 @@ public class StepVideoPlayerViewHolder extends RecyclerView.ViewHolder {
                             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN);
         }
     }
 }
