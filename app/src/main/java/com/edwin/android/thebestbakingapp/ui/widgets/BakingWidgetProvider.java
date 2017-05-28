@@ -12,11 +12,7 @@ import android.widget.RemoteViews;
 
 import com.edwin.android.thebestbakingapp.R;
 import com.edwin.android.thebestbakingapp.entity.RecipeDTO;
-import com.edwin.android.thebestbakingapp.ui.activities.MainActivity;
 import com.google.gson.Gson;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Implementation of App Widget functionality.
@@ -24,6 +20,7 @@ import java.util.List;
 public class BakingWidgetProvider extends AppWidgetProvider {
 
     public static final String TAG = BakingWidgetProvider.class.getSimpleName();
+    public static final String PREF_RECIPES = "PREF_RECIPES";
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
@@ -58,7 +55,7 @@ public class BakingWidgetProvider extends AppWidgetProvider {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = prefs.edit();
         String recipeData = new Gson().toJson(data);
-        editor.putString(MainActivity.PREF_RECIPES, recipeData);
+        editor.putString(PREF_RECIPES, recipeData);
         Log.d(TAG, "Preference with recipes saved");
         editor.commit();
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
@@ -69,7 +66,7 @@ public class BakingWidgetProvider extends AppWidgetProvider {
 
     public static RecipeDTO[] getRecipes(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        String recipeData = prefs.getString(MainActivity.PREF_RECIPES, "");
+        String recipeData = prefs.getString(PREF_RECIPES, "");
         RecipeDTO[] recipes = new Gson().fromJson(recipeData, RecipeDTO[].class);
         return recipes;
     }

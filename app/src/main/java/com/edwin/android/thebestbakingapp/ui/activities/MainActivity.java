@@ -13,7 +13,6 @@ import butterknife.Unbinder;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
-    public static final String PREF_RECIPES = "PREF_RECIPES";
     @BindView(R.id.toolbar_main)
     Toolbar mToolbar;
     private Unbinder mUnbinder;
