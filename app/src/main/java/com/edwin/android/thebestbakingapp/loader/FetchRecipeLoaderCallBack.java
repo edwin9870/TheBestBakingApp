@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 
 import com.edwin.android.thebestbakingapp.entity.RecipeDTO;
 import com.edwin.android.thebestbakingapp.ui.adapter.BackingPosterAdapter;
+import com.edwin.android.thebestbakingapp.ui.widgets.BakingWidgetProvider;
 
 /**
  * Created by Edwin Ramirez Ventura on 5/26/2017.

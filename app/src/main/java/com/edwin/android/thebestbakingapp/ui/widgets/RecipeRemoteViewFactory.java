@@ -1,12 +1,12 @@
 package com.edwin.android.thebestbakingapp.ui.widgets;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.edwin.android.thebestbakingapp.R;
+import com.edwin.android.thebestbakingapp.entity.IngredientDTO;
 import com.edwin.android.thebestbakingapp.entity.RecipeDTO;
 import com.edwin.android.thebestbakingapp.util.NetworkingUtil;
 
@@ -46,15 +46,29 @@ public class RecipeRemoteViewFactory implements RemoteViewsService.RemoteViewsFa
         if(mRecipes == null) {
             return 0;
         }
+
+        Log.d(TAG, "mRecipes size: "+ mRecipes.length);
         return mRecipes.length;
     }
 
     @Override
     public RemoteViews getViewAt(int position) {
         Log.d(TAG, "getViewAt: "+ position);
-        RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.item_ingredient_widget);
+        RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.item_recipe_widget);
 
         views.setTextViewText(R.id.text_widget_recipe_name, mRecipes[position].getName());
+
+        RemoteViews ingredientView;
+        for(IngredientDTO ingredient : mRecipes[position].getIngredients()) {
+            ingredientView = new RemoteViews(mContext.getPackageName(), R.layout.item_ingredient_widget);
+            ingredientView.setTextViewText(R.id.text_widget_ingredient_name, ingredient.getIngredient());
+            ingredientView.setTextViewText(R.id.text_widget_ingredient_quantity, String.valueOf(ingredient.getQuantity()));
+            ingredientView.setTextViewText(R.id.text_widget_ingredient_measure, ingredient.getMeasure());
+
+            views.addView(R.id.list_ingredients, ingredientView);
+        }
+
+
         return views;
     }
 

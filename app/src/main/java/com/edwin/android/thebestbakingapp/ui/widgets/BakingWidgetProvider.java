@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.edwin.android.thebestbakingapp.R;
+import com.edwin.android.thebestbakingapp.entity.RecipeDTO;
 
 /**
  * Implementation of App Widget functionality.
