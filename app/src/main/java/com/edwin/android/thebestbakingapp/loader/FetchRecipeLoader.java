@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.edwin.android.thebestbakingapp.R;
 import com.edwin.android.thebestbakingapp.entity.RecipeDTO;
+import com.edwin.android.thebestbakingapp.util.NetworkingUtil;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -38,25 +39,7 @@ public class FetchRecipeLoader extends AsyncTaskLoader<RecipeDTO[]> {
 
     @Override
     public RecipeDTO[] loadInBackground() {
-        OkHttpClient client = new OkHttpClient();
-
-        String urlToGetData = getContext().getString(R.string.baking_url_data);
-        Request request = new Request.Builder()
-                .url(urlToGetData)
-                .build();
-
-        mRecipes = null;
-        try {
-            Response response = client.newCall(request).execute();
-
-            String responseJson = response.body().string();
-            Gson gson = new Gson();
-            mRecipes = gson.fromJson(responseJson, RecipeDTO[].class);
-        } catch (IOException e) {
-            Log.e(TAG, e.getMessage());
-        }
-
-        return mRecipes;
+        return NetworkingUtil.getRecipes(getContext());
     }
 
     @Override
