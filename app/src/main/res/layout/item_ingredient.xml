@@ -1,34 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:id="@+id/frame_layout_item_ingredient"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="horizontal"
-              android:paddingEnd="@dimen/frame_layout_item_ingredient_padding_right"
-              android:paddingLeft="@dimen/frame_layout_item_ingredient_padding_left"
-              android:paddingRight="@dimen/frame_layout_item_ingredient_padding_right"
-              android:paddingStart="@dimen/frame_layout_item_ingredient_padding_left"
-              android:paddingTop="@dimen/frame_layout_item_ingredient_padding_top">
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:id="@+id/frame_layout_item_ingredient"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="wrap_content"
+                                             android:orientation="horizontal"
+                                             android:paddingEnd="@dimen/layout_ingredient_padding_right"
+                                             android:paddingLeft="@dimen/layout_item_ingredient_padding_left"
+                                             android:paddingRight="@dimen/layout_ingredient_padding_right"
+                                             android:paddingStart="@dimen/layout_item_ingredient_padding_left"
+                                             android:paddingTop="@dimen/layout_item_ingredient_padding_top">
 
     <!-- TODO: Replace LinearLayout's dimen for its owns-->
 
     <TextView
         android:id="@+id/text_ingredient_quantity"
         style="@style/ingredient"
-        tools:text="6"/>
+        android:layout_width="@dimen/text_ingredient_quantity_width"
+        android:layout_marginLeft="@dimen/text_ingredient_quantity_margin_left"
+        android:layout_marginStart="@dimen/text_ingredient_quantity_margin_left"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="6000"/>
 
     <TextView
         android:id="@+id/text_ingredient_measure"
         style="@style/ingredient"
-        android:layout_marginLeft="16dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/text_ingredient_quantity"
+        app:layout_constraintLeft_toRightOf="@+id/text_ingredient_quantity"
         tools:text="TSP"/>
 
     <TextView
         android:id="@+id/text_ingredient_name"
         style="@style/ingredient"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="@dimen/text_ingredient_name_margin_left"
+        android:layout_marginStart="@dimen/text_ingredient_name_margin_left"
         android:textColor="@color/colorSecondary"
-        tools:text="granulated sugar"/>
+        app:layout_constraintBaseline_toBaselineOf="@+id/text_ingredient_measure"
+        app:layout_constraintLeft_toRightOf="@+id/text_ingredient_measure"
+        tools:text="granulated sugar granulated sugar granulated sugar"/>
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

@@ -5,10 +5,10 @@
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
              android:orientation="vertical"
-             android:paddingEnd="@dimen/frame_layout_item_step_description_padding_right"
-             android:paddingLeft="@dimen/frame_layout_item_step_description_padding_left"
-             android:paddingRight="@dimen/frame_layout_item_step_description_padding_right"
-             android:paddingStart="@dimen/frame_layout_item_step_description_padding_left">
+             android:paddingEnd="@dimen/layout_item_step_description_padding_right"
+             android:paddingLeft="@dimen/layout_item_step_description_padding_left"
+             android:paddingRight="@dimen/layout_item_step_description_padding_right"
+             android:paddingStart="@dimen/layout_item_step_description_padding_left">
 
 
     <TextView
