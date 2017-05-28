@@ -16,6 +16,7 @@
         style="@style/Base.TextAppearance.AppCompat.Body1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/colorSecondary"
         android:layout_marginTop="@dimen/text_recipe_step_description_margin_top"
         tools:text="Sample description of a recipe.... :PPPPPPP"/>
 
