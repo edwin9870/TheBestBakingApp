@@ -40,7 +40,6 @@ public class StepActivity extends AppCompatActivity {
         StepFragment stepFragment = new StepFragment();
 
         Log.d(TAG, "Checking if savedInstanceState is null");
-        //TODO: Check if I avoid recreate the data if savedInstance is not null
         if (savedInstanceState != null) {
             Log.d(TAG, "Settings variables using savedInstanceState: " + savedInstanceState);
 

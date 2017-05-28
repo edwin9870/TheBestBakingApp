@@ -12,7 +12,6 @@
                                              android:paddingStart="@dimen/layout_item_ingredient_padding_left"
                                              android:paddingTop="@dimen/layout_item_ingredient_padding_top">
 
-    <!-- TODO: Replace LinearLayout's dimen for its owns-->
 
     <TextView
         android:id="@+id/text_ingredient_quantity"
