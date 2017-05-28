@@ -22,7 +22,7 @@
     <dimen name="layout_item_recipe_step_padding_bottom">@dimen/layout_item_recipe_step_padding_top</dimen>
     <dimen name="layout_item_ingredient_padding_top">8dp</dimen>
     <dimen name="text_recipe_step_short_description_size">24sp</dimen>
-    <dimen name="text_ingredient_name_size">17sp</dimen>
+    <dimen name="text_ingredient_name_size">18sp</dimen>
     <dimen name="text_recipe_step_description_margin_top">16dp</dimen>
     <dimen name="layout_item_step_description_padding_left">16dp</dimen>
     <dimen name="layout_item_step_description_padding_right">@dimen/layout_item_step_description_padding_left</dimen>
