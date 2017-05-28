@@ -54,7 +54,7 @@ public class MainActivityTest {
     }
 
     @Test
-    public void checkThatExistRecipeExists() {
+    public void checkThatRecipeExists() {
         onView(withId(R.id.recycler_view_baking)).perform(RecyclerViewActions.scrollToPosition(2)).perform(click());
     }
 
