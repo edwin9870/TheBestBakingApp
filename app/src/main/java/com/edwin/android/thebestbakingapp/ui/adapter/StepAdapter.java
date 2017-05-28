@@ -70,8 +70,8 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Log.d(TAG, "Description view type inflated");
                 break;
             case NEXT_PREVIOUS_VIEW_TYPE:
-                view = inflater.inflate(R.layout.item_next_previous, viewGroup, false);
-                viewHolder = new StepNextPreviousViewHolder(view);
+                view = inflater.inflate(R.layout.item_navigation_step, viewGroup, false);
+                viewHolder = new StepNavigationViewHolder(view);
                 break;
             case INGREDIENT_VIEW_TYPE:
                 view = inflater.inflate(R.layout.item_ingredient, viewGroup, false);
@@ -110,7 +110,7 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 configureViewHolder((StepDescriptionViewHolder) holder, position);
                 break;
             case NEXT_PREVIOUS_VIEW_TYPE:
-                configureViewHolder((StepNextPreviousViewHolder) holder, position);
+                configureViewHolder((StepNavigationViewHolder) holder, position);
                 break;
             case INGREDIENT_VIEW_TYPE:
                 configureViewHolder((IngredientViewHolder) holder, position);
@@ -195,7 +195,7 @@ public class StepAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         holder.mRecipeStepDescriptionTextView.setText(stepDescription);
     }
 
-    private void configureViewHolder(StepNextPreviousViewHolder holder, int position) {
+    private void configureViewHolder(StepNavigationViewHolder holder, int position) {
         holder.mNextStepButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -13,7 +13,7 @@ import butterknife.ButterKnife;
  * Created by Edwin Ramirez Ventur on 5/22/2017.
  */
 
-public class StepNextPreviousViewHolder extends RecyclerView.ViewHolder {
+public class StepNavigationViewHolder extends RecyclerView.ViewHolder {
 
 
     @BindView(R.id.button_previous_step)
@@ -21,7 +21,7 @@ public class StepNextPreviousViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.button_next_step)
     Button mNextStepButton;
 
-    StepNextPreviousViewHolder(View itemView) {
+    StepNavigationViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }
