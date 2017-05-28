@@ -2,13 +2,21 @@ package com.edwin.android.thebestbakingapp.ui.widgets;
 
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.edwin.android.thebestbakingapp.R;
 import com.edwin.android.thebestbakingapp.entity.RecipeDTO;
+import com.edwin.android.thebestbakingapp.ui.activities.MainActivity;
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Implementation of App Widget functionality.
@@ -45,5 +53,25 @@ public class BakingWidgetProvider extends AppWidgetProvider {
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
     }
-}
+
+    public static void updateRecipeDataWidget(RecipeDTO[] data, Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        String recipeData = new Gson().toJson(data);
+        editor.putString(MainActivity.PREF_RECIPES, recipeData);
+        Log.d(TAG, "Preference with recipes saved");
+        editor.commit();
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, BakingWidgetProvider.class));
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.list_ingredient_name);
+        Log.d(TAG, "Widget notified");
+    }
+
+    public static RecipeDTO[] getRecipes(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String recipeData = prefs.getString(MainActivity.PREF_RECIPES, "");
+        RecipeDTO[] recipes = new Gson().fromJson(recipeData, RecipeDTO[].class);
+        return recipes;
+    }
+ }
 

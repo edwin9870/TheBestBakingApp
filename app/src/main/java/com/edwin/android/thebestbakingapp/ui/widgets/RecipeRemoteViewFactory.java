@@ -1,6 +1,9 @@
 package com.edwin.android.thebestbakingapp.ui.widgets;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -8,7 +11,12 @@ import android.widget.RemoteViewsService;
 import com.edwin.android.thebestbakingapp.R;
 import com.edwin.android.thebestbakingapp.entity.IngredientDTO;
 import com.edwin.android.thebestbakingapp.entity.RecipeDTO;
+import com.edwin.android.thebestbakingapp.ui.activities.MainActivity;
 import com.edwin.android.thebestbakingapp.util.NetworkingUtil;
+import com.google.gson.Gson;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Edwin Ramirez Ventura on 5/27/2017.
@@ -18,37 +26,35 @@ public class RecipeRemoteViewFactory implements RemoteViewsService.RemoteViewsFa
 
     public static final String TAG = RecipeRemoteViewFactory.class.getSimpleName();
     private Context mContext;
-    private RecipeDTO[] mRecipes;
+    private RecipeDTO[] recipes;
 
     public RecipeRemoteViewFactory(Context applicationContext) {
         mContext = applicationContext;
     }
 
     @Override
-    public void onCreate() {
-
-    }
+    public void onCreate() {}
 
     @Override
     public void onDataSetChanged() {
-        mRecipes = NetworkingUtil.getRecipes(mContext);
-
+        Log.d(TAG, "Getting data");
+        recipes = BakingWidgetProvider.getRecipes(mContext);
+        Log.d(TAG, "Recipes size: "+ recipes.length);
     }
 
     @Override
     public void onDestroy() {
-
     }
 
     @Override
     public int getCount() {
         Log.d(TAG, "Count called");
-        if(mRecipes == null) {
+        if(recipes == null) {
             return 0;
         }
 
-        Log.d(TAG, "mRecipes size: "+ mRecipes.length);
-        return mRecipes.length;
+        Log.d(TAG, "mRecipes size: "+ recipes.length);
+        return recipes.length;
     }
 
     @Override
@@ -56,10 +62,10 @@ public class RecipeRemoteViewFactory implements RemoteViewsService.RemoteViewsFa
         Log.d(TAG, "getViewAt: "+ position);
         RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.item_recipe_widget);
 
-        views.setTextViewText(R.id.text_widget_recipe_name, mRecipes[position].getName());
+        views.setTextViewText(R.id.text_widget_recipe_name, recipes[position].getName());
 
         RemoteViews ingredientView;
-        for(IngredientDTO ingredient : mRecipes[position].getIngredients()) {
+        for(IngredientDTO ingredient : recipes[position].getIngredients()) {
             ingredientView = new RemoteViews(mContext.getPackageName(), R.layout.item_ingredient_widget);
             ingredientView.setTextViewText(R.id.text_widget_ingredient_name, ingredient.getIngredient());
             ingredientView.setTextViewText(R.id.text_widget_ingredient_quantity, String.valueOf(ingredient.getQuantity()));

@@ -12,4 +12,5 @@ public class ListGridService extends RemoteViewsService {
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
         return new RecipeRemoteViewFactory(this.getApplicationContext());
     }
+
 }
