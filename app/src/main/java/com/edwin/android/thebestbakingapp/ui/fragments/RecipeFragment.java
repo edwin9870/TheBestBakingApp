@@ -2,7 +2,10 @@ package com.edwin.android.thebestbakingapp.ui.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v7.widget.GridLayoutManager;
@@ -18,6 +21,7 @@ import com.edwin.android.thebestbakingapp.entity.RecipeDTO;
 import com.edwin.android.thebestbakingapp.loader.FetchRecipeLoaderCallBack;
 import com.edwin.android.thebestbakingapp.ui.activities.RecipeDetailActivity;
 import com.edwin.android.thebestbakingapp.ui.adapter.BackingPosterAdapter;
+import com.edwin.android.thebestbakingapp.util.SimpleIdlingResource;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,6 +42,8 @@ public class RecipeFragment extends Fragment implements BackingPosterAdapter
     RecyclerView mRecyclerView;
     private BackingPosterAdapter mBackingPosterAdapter;
     private Unbinder mUnbinder;
+    @Nullable private SimpleIdlingResource mIdlingResource;
+
 
 
     @Nullable
@@ -49,6 +55,7 @@ public class RecipeFragment extends Fragment implements BackingPosterAdapter
         int backingColumnNumber = getResources().getInteger(R.integer.backing_column);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),
                 backingColumnNumber);
+        getIdlingResource();
         Log.d(TAG, "$gridLayoutManager: " + gridLayoutManager);
         mRecyclerView.setLayoutManager(gridLayoutManager);
         mRecyclerView.setHasFixedSize(false);
@@ -66,7 +73,7 @@ public class RecipeFragment extends Fragment implements BackingPosterAdapter
     private void setupLoader() {
         LoaderManager loaderManager = getActivity().getSupportLoaderManager();
         FetchRecipeLoaderCallBack loaderCallback = new FetchRecipeLoaderCallBack(getActivity(),
-                mBackingPosterAdapter, progressBarLoadingIndicator, mRecyclerView);
+                mBackingPosterAdapter, progressBarLoadingIndicator, mRecyclerView, mIdlingResource);
 
         loaderManager.initLoader(FETCH_BAKING_RECIPES_LOADER, new Bundle(), loaderCallback);
     }
@@ -86,5 +93,14 @@ public class RecipeFragment extends Fragment implements BackingPosterAdapter
     public void onDestroyView() {
         super.onDestroyView();
         mUnbinder.unbind();
+    }
+
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if (mIdlingResource == null) {
+            mIdlingResource = new SimpleIdlingResource();
+        }
+        return mIdlingResource;
     }
 }
