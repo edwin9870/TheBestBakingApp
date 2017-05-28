@@ -78,7 +78,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeSte
                     .replace(R.id.step_detail, stepFragment)
                     .commit();
         } else {
-            Class<? extends AppCompatActivity> destinationActivity;
+            Class<StepActivity> destinationActivity;
             Intent intent;
 
             destinationActivity = StepActivity.class;

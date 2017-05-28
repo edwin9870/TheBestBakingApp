@@ -65,12 +65,10 @@ public class StepActivity extends AppCompatActivity {
         stepFragment.setRecipe(recipe);
         stepFragment.setStepSelected(mStepSelected);
 
-        if (savedInstanceState == null) {
-            fragmentManager.beginTransaction()
-                    .add(R.id.recipe_step_fragment, stepFragment)
-                    .commit();
-            Log.d(TAG, "fragmentManager.beginTransaction() called");
-        }
+        fragmentManager.beginTransaction()
+                .add(R.id.recipe_step_fragment, stepFragment)
+                .commit();
+        Log.d(TAG, "fragmentManager.beginTransaction() called");
     }
 
     @Override
